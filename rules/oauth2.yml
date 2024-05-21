@@ -34,7 +34,7 @@ rules:
       For further info, see the OAuth2 section of [API Security Guidelines](https://docs.italia.it/AgID/documenti-in-consultazione/lg-sicurezza-interoperabilita-docs/).
 
     message: >-
-      Do not use oauth2 insecure flow: "{{property}}".
+      [RFC7636] Do not use oauth2 insecure flow: "{{property}}".
     formats:
       - oas3
     severity: error

@@ -9,7 +9,7 @@ rules:
 
       Retry-After is defined in RFC7231.
     message: >-
-      Missing ratelimit header: {{property}} in {{path}}
+      [RFC7231] Missing ratelimit header: {{property}} in {{path}}
     formats:
       - oas3
     severity: warn
