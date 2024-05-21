@@ -23,7 +23,7 @@ rules:
       like described in RFC7234.
 
     message: >-
-      Cache usage SHOULD be documented when used.
+      [RFC7234] Cache usage SHOULD be documented when used.
     formats:
       - oas3
     severity: warn
@@ -43,14 +43,14 @@ rules:
     <<: *cache-control
     severity: info
     message: >-
-      Cache usage in responses SHOULD be documented in Cache-Control and/or Expires. {{error}}
+      [RFC7234] Cache usage in responses SHOULD be documented in Cache-Control and/or Expires. {{error}}
     given: >-
-      $..[responses][?(@property[0] == "2" )][headers].[?(@property.match(/Cache-Control|Expires/i))]]
+      $..[responses][?(@property[0] == "2" )][headers].[?(@property.match(/Cache-Control|Expires/i))]
 
   cache-responses-indeterminate-behavior:
     <<: *cache-control
     message: >-
-      {{error}}
+      [RFC7234] {{error}}
     severity: info
     recommended: true
     given: >-
