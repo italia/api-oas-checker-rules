@@ -24,7 +24,7 @@ rules:
                   example: [{ "op": "add", "path": "/baz", "value": "qux" }]
       ```
     message: >-
-      application/json is not an appropriate media-type for PATCH. {{path}}
+      [RFC6902] application/json is not an appropriate media-type for PATCH. {{path}}
     formats:
     - oas3
     severity: error
@@ -96,7 +96,7 @@ rules:
                   example: [{ "op": "add", "path": "/baz", "value": "qux" }]
       ```
     message: >-
-      application/json-patch+json is not an array. {{path}}
+      [RFC6902] application/json-patch+json is not an array. {{path}}
     formats:
     - oas3
     severity: warn
