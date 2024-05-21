@@ -40,7 +40,6 @@
     "buffer": "^6.0.3",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^10.2.4",
-    "cross-env": "^7.0.3",
     "css-loader": "^6.5.1",
     "css-minimizer-webpack-plugin": "^4.2.0",
     "eslint": "^7.32.0",
@@ -75,8 +74,8 @@
   "repository": "https://github.com/italia/api-oas-checker",
   "scripts": {
     "build": "make all",
-    "build-js": "cross-env NODE_ENV=production webpack",
-    "bundle-analyze": "cross-env NODE_ENV=production webpack --analyze",
+    "build-js": "NODE_ENV=production webpack",
+    "bundle-analyze": "NODE_ENV=production webpack --analyze",
     "deploy": "gh-pages -u 'Deploy Bot <no-reply@teamdigitale.governo.it>' -d dist",
     "eslint": "eslint src",
     "eslint:fix": "eslint src --fix",
