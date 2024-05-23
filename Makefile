@@ -18,24 +18,27 @@ install: yarn.lock
 	rm -rf node_modules
 	yarn install --frozen-lockfile
 
-
 # Generate spectral ruleset with documentation
-rules: clean $(RULE_FILES)
-spectral.yml: ./rules/
+rules: clean spectral.yml spectral-generic.yml spectral-security.yml spectral-full.yml
+
+spectral.yml: $(wildcard ./rules/*.yml)
 	cat ./rules/rules-template.yml.template > $@
-	./rules/merge-yaml rules/*.yml >> $@
+	./rules/merge-yaml $^ >> $@
 	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines'
-spectral-generic.yml: ./rules/  spectral.yml
-	./rules/merge-yaml spectral.yml rules/skip-italian.yml.template > $@
+
+spectral-generic.yml: spectral.yml $(wildcard ./rules/*.yml)
+	./rules/merge-yaml spectral.yml ./rules/skip-italian.yml.template > $@
 	node ruleset_doc_generator.mjs --file $@ --title 'Best Practices Only'
-spectral-security.yml: ./rules/  ./security/
+
+spectral-security.yml: $(wildcard ./rules/*.yml) $(wildcard ./security/*.yml)
 	cat ./rules/rules-template.yml.template > $@
-	./rules/merge-yaml security/*.yml >> $@
+	./rules/merge-yaml ./security/*.yml >> $@
 	mkdir -p ./functions
 	cp ./security/functions/* ./functions/
 	node ruleset_doc_generator.mjs --file $@ --title 'Extra Security Checks'
+
 spectral-full.yml: spectral.yml spectral-security.yml
-	./rules/merge-yaml spectral.yml spectral-security.yml > $@
+	./rules/merge-yaml $^ > $@
 	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines + Extra Security Checks'
 
 # Build js bundle
@@ -58,3 +61,4 @@ ittest: test rules
 
 deploy: all
 	yarn deploy
+
