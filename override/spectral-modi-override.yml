@@ -1,0 +1,74 @@
+rules:
+  skip:
+    - has-contact
+    - has-termsOfService
+    - has-x-api-id
+    - has-x-summary
+    - hint-problem-schema
+    - no-forbidden-headers
+    - no-x-headers-request
+    - no-x-headers-response
+    - patch-json-patch-mediatype
+    - patch-media-type
+    - patch-without-request-body
+    - paths-http-method
+    - request-headers-pascal-case
+    - response-headers-pascal-case
+    - response-with-json-object
+    - schema-camel-case
+    - sec-securitySchemes-oauth-allowed-flows
+    - sec-securitySchemes-oauth-http
+    - servers-description
+    - use-recommended-names-in-parameters
+    - use-recommended-names-in-schemas
+    - use-semver
+
+  override:
+    allowed-integer-format:
+      severity: error
+    allowed-number-format:
+      severity: error
+    cache-control-parameter-undocumented:
+      severity: error
+    cache-responses-indeterminate-behavior:
+      severity: error
+    cache-responses-undocumented:
+      severity: error
+    http-request-DELETE-no-body:
+      severity: error
+    http-request-GET-no-body:
+      severity: error
+    http-response-content-2xx:
+      severity: error
+    http-response-no-content-204-205:
+      severity: error
+    integer-format:
+      severity: error
+    missing-ratelimit:
+      severity: error
+    missing-retry-after:
+      severity: error
+    no-method-name-in-operationId:
+      severity: error
+    no-swagger-2:
+      severity: error
+    number-format:
+      severity: error
+    paths-kebab-case:
+      severity: warn
+    paths-status:
+      severity: error
+    paths-status-problem-schema:
+      severity: error
+    paths-status-return-problem:
+      severity: error
+    sec-apikeys-url:
+      severity: error
+    sec-credentials-parameters:
+      severity: error
+    servers-use-https:
+      severity: error
+    use-problem-json-for-errors:
+      severity: error
+    use-problem-schema:
+      severity: error
