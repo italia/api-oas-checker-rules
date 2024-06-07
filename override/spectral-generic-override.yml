@@ -1,0 +1,8 @@
+rules:
+  skip:
+    - has-x-summary
+    - has-x-api-id
+    - number-format
+    - integer-format
+    - allowed-integer-format
+    - allowed-number-format
