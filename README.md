@@ -22,7 +22,7 @@ Per eseguire la validazione, è sufficiente:
 
 #### Importante
 
-- Utilizzare il set di regole **MoDI Guidelines**.
+- Utilizzare il set di regole **ModI Guidelines**.
 - Correggere obbligatoriamente gli errori segnalati in rosso.
 - Correggere opzionalmente i warning segnalati in arancione.
 - In grigio sono presenti suggerimenti utili, anche questi opzionali.
