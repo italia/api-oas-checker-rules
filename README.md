@@ -8,6 +8,13 @@ Per maggiori informazioni sul modello, è possibile scaricare il documento [qui]
 
 ## Metodi di Validazione
 
+## Indice dei Metodi di Validazione
+
+1. 🌐 [Primo Metodo: il Sito Web](#primo-metodo-il-sito-web)
+2. 🖥️ [Secondo Metodo: l'estensione per IDE](#secondo-metodo-lestensione-per-ide)
+3. 💻 [Terzo Metodo: da Linea di Comando (CLI)](#terzo-metodo-da-linea-di-comando-cli)
+4. ⚙️ [Quarto Metodo: GitHub Action](#quarto-metodo-github-action)
+
 ### Primo Metodo: il Sito Web
 
 #### Italian OpenAPI Validation Checker
@@ -61,7 +68,7 @@ L’estensione segnala in tempo reale gli errori e i warning rilevati nei file O
 
 ![Funzionamento su VS Code](resources/img/extension3.png)
 
-### Terzo Metodo: daL Linea di Comando (CLI)
+### Terzo Metodo: da Linea di Comando (CLI)
 
 #### Linea di Comando (CLI)
 
@@ -93,5 +100,20 @@ Nel file di output, in formato JSON, è presente la lista di tutte le occorrenze
 
 ![Recupero del tool](resources/img/cli3.png)
 
+### Quarto Metodo: GitHub Action
+
+#### GitHub Action
+
+È stata realizzata una GitHub Action facilmente integrabile che consente di effettuare la validazione delle interfacce OpenAPI con Spectral per ogni push e pull request su una repository. Questa soluzione automatizza il processo di validazione, garantendo che ogni modifica venga controllata in conformità con le regole stabilite.
+
+#### Personalizzazione
+
+È possibile personalizzare ulteriormente l’azione modificando, ad esempio, la cartella dove cercare le OpenAPI e i branch oggetto del linter. In questo modo, è possibile adattare l’azione alle specifiche esigenze del proprio progetto.
+
+#### Esempio Funzionante
+
+Al link [resources/github-action.yml](resources/github-action.yml) si trova un esempio già funzionante di GitHub Action. La Action scarica sempre l’ultimo ruleset pubblicato, assicurando che la validazione sia sempre aggiornata con le ultime regole disponibili. A valle dell'esecuzione, nella pagina di esecuzione è disponibile, in fondo, come da immagine, un archivio coi risultati dell'analisi di Spectral sugli eventuali file OpenAPI.
+
+![Esempio su GitHub nella sezione Action](resources/img/github1.png)
 
 Speriamo che questa guida sia utile per garantire che le vostre interfacce OpenAPI rispettino gli standard richiesti per l'interoperabilità tecnica nella Pubblica Amministrazione Italiana. Buona validazione!
