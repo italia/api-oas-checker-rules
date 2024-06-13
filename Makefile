@@ -2,7 +2,6 @@
 # Tasks set to build ruleset, bundle js, test and deploy
 #
 #
-SHELL=/bin/bash
 
 UID=$(shell id -u)
 GID=$(shell id -g)
