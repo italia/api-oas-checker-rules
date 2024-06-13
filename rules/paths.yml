@@ -51,7 +51,7 @@ rules:
     severity: warn
     recommended: true
     given: >-
-      $.paths.'/status'.get.responses.200.content.[[schema]]
+      $.paths.'/status'.get.responses.200.content.[schema]
     then:
     - function: truthy
       field: 'properties.status'
@@ -113,7 +113,7 @@ rules:
       This simplifies securing your API as you know beforehand the kind of action
       which is going to be performed.
     message: >-
-      API "path" contains a name of an http method. {{error}}
+      [RFC7231] API "path" contains a name of an http method. {{error}}
     severity: hint
     recommended: true
     given:
