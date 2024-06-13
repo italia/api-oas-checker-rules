@@ -4,7 +4,7 @@ rules:
       Paths should be kebab-case (e.g. `path-parameter`).
 
       See Italian recommendation RAC_REST_NAME_002.
-    message: '{{property}} is not kebab-case: {{error}}'
+    message: '[RAC_REST_NAME_002] {{property}} is not kebab-case: {{error}}'
     severity: warn
     recommended: true
     given: $.paths[*]~
@@ -20,7 +20,7 @@ rules:
       Headers should be pascal-case, separated by hyphens (e.g. `PascalCase-Header`)
 
       See Italian recommendation RAC_REST_NAME_003.
-    message: '{{value}} {{error}} in {{path}}'
+    message: '[RAC_REST_NAME_003] {{value}} {{error}} in {{path}}'
     severity: hint
     recommended: true
     given:
@@ -33,7 +33,7 @@ rules:
           char: '-'
   response-headers-pascal-case:
     <<: *request-headers-pascal-case
-    message: 'Header {{error}}: {{path}}'
+    message: '[RAC_REST_NAME_003] Header {{error}}: {{path}}'
     given:
     - $..[responses][*].headers.*~
 

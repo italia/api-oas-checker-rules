@@ -11,7 +11,7 @@ rules:
 
       See recommendation RAC_REST_FORMAT_004.
     message: >-
-      Schema of type number or integer must specify a format. {{path}}
+      [RAC_REST_FORMAT_004] Schema of type number or integer must specify a format. {{path}}
     formats:
     - oas3
     severity: error
@@ -34,7 +34,7 @@ rules:
 
       See recommendation RAC_REST_FORMAT_004.
     message: >-
-      Type format is "{{value}}", expected one of [int32, int64]. {{path}}
+      [RAC_REST_FORMAT_004] Type format is "{{value}}", expected one of [int32, int64]. {{path}}
     formats:
     - oas3
     severity: hint
@@ -51,7 +51,7 @@ rules:
   allowed-number-format:
     <<: *allowed-integer-format
     message: >-
-      Type format is "{{value}}", expected one of [decimal32, decimal64, decimal128, float, double]. {{path}}
+      [RAC_REST_FORMAT_004] Type format is "{{value}}", expected one of [decimal32, decimal64, decimal128, float, double]. {{path}}
     given: >-
       $..[?(@ && @.type=="number")]
     then:

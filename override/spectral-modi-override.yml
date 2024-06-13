@@ -1,0 +1,19 @@
+rules:
+  skip:
+    - has-contact
+    - has-termsOfService
+    - has-x-api-id
+    - has-x-summary
+    - integer-format
+    - paths-status
+    - response-with-json-object
+    - servers-description
+    - servers-use-https
+    - use-problem-json-for-errors
+    - use-semver
+    - request-headers-train-case
+    - paths-status-return-json
+  override:
+    oas3-schema: false
+    oas3-server-variables: false
+    oas3-valid-schema-example: false

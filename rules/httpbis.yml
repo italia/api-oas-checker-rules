@@ -8,7 +8,7 @@ rules:
 
       See RFC7231 for further information.
     message: >-
-      A GET request MUST NOT accept a requestBody: {{error}}.
+      [RFC7231] A GET request MUST NOT accept a requestBody: {{error}}.
     severity: error
     given: $.paths..get.requestBody
     then:
@@ -22,7 +22,7 @@ rules:
 
       See RFC7231 for further information.
     message: >-
-      A DELETE request SHOULD NOT accept a requestBody: {{error}}.
+      [RFC7231] A DELETE request SHOULD NOT accept a requestBody: {{error}}.
     severity: warn
     given: $.paths..delete.requestBody
     then:
@@ -38,7 +38,7 @@ rules:
       See RFC7231 for further information.
 
     message: >-
-      204 and 205 responses MUST NOT have a content: {{error}}.
+      [RFC7231] 204 and 205 responses MUST NOT have a content: {{error}}.
     severity: error
     given: '$..paths..responses[?(@property && @property.match("(204|205)") )]'
     then:
@@ -47,7 +47,7 @@ rules:
   http-response-content-2xx:
     <<: *response-content
     message: >-
-      200, 201, 202, 203 and 206 responses usually have a content: {{error}}.
+      [RFC7231] 200, 201, 202, 203 and 206 responses usually have a content: {{error}}.
     severity: hint
     given: '$..paths..responses[?( @property && @property.match("(200|201|202|203|206)") )]'
     then:

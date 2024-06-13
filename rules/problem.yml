@@ -24,7 +24,7 @@ rules:
       ```
 
     message: |-
-      Error responses should support RFC7807 in {{path}}.
+      [RFC7807] Error responses should support RFC7807 in {{path}}.
     formats:
       - oas3
     severity: error
@@ -61,14 +61,14 @@ rules:
 
       See recommendation RAC_REST_NAME_007.
     message: |-
-      Your schema doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
+      [RFC7807] Your schema doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
     formats:
     - oas3
     severity: hint
     recommended: true
     # Search for 4xx, 5xx and default responses schema.
     given: >-
-      $..[responses][?(@property && @property.match(/^(4|5|default)/)  && !@["x-noqa"] )][[schema]].properties
+      $..[responses][?(@property && @property.match(/^(4|5|default)/)  && !@["x-noqa"] )][schema].properties
     then:
       function: schema
       functionOptions:
@@ -124,14 +124,14 @@ rules:
 
       See recommendation RAC_REST_NAME_007.
     message: |-
-      Error response doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
+      [RFC7807] Error response doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
     formats:
     - oas3
     severity: hint
     recommended: true
     # Search for 4xx, 5xx and default responses schema.
     given: >-
-      $..[responses][?(@property && @property.match(/^(4|5|default)/)  && !@["x-noqa"] )][[schema]][properties].*~
+      $..[responses][?(@property && @property.match(/^(4|5|default)/)  && !@["x-noqa"] )][schema][properties].*~
     then:
       field: "@key"
       function: pattern

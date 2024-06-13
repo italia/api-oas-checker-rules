@@ -23,7 +23,7 @@ rules:
     given:
       - "$..parameters[?(@.in == 'header')].name"
     message: |-
-      HTTP header '{{value}}' SHOULD NOT start with 'X-' in {{path}}
+      [RFC6648] HTTP header '{{value}}' SHOULD NOT start with 'X-' in {{path}}
     recommended: true
     type: style
     then:
@@ -37,7 +37,7 @@ rules:
     given:
       - $..[responses][*].headers.*~
     message: |-
-      HTTP response header SHOULD NOT start with 'X-' in {{path}}
+      [RFC6648] HTTP response header SHOULD NOT start with 'X-' in {{path}}
     then:
       function: pattern
       functionOptions:
