@@ -1,6 +1,6 @@
 OpenAPI 3.x detected
 
-/code/rules/tests/https-test.yml
+/code/rules-modi/rules/tests/https-test.yml
   3:5   error  servers-description  Server #/servers/0 must have a description.                                                                                                     servers[0]
   9:10  error  servers-use-https    Non-sandbox url  http://ko.example must match the pattern '^https://.*'. Add `x-sandbox: true` to skip this check on a specific server.         servers[3].url
  11:10  error  servers-use-https    Non-sandbox url  http://ko.sandbox.examle must match the pattern '^https://.*'. Add `x-sandbox: true` to skip this check on a specific server.  servers[4].url

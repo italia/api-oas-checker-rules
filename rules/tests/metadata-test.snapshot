@@ -1,6 +1,6 @@
 OpenAPI 3.x detected
 
-/code/rules/tests/metadata-test.yml
+/code/rules-modi/rules/tests/metadata-test.yml
   14:6  error  has-contact         API MUST reference a contact, either url or email in #/info/contact                info
   14:6  error  has-termsOfService  API MUST reference the URL of the Terms of Service in #/info/termsOfService.       info
   14:6   hint  has-x-api-id        API must have an unique identifier in x-api-id in #/info/x-api-id.                 info

@@ -8,16 +8,19 @@ GID=$(shell id -g)
 
 RULE_FILES := spectral.yml spectral-full.yml spectral-security.yml spectral-generic.yml spectral-modi.yml
 RULESET_DIR := rulesets
+FUNCTIONS_DIR:= $(RULESET_DIR)/functions
 
 all: clean rules
 
 clean:
 	rm -rf $(RULESET_DIR)
+	rm -rf $(FUNCTIONS_DIR)
 
 rules: prepare_dir spectral.yml spectral-generic.yml spectral-security.yml spectral-full.yml spectral-modi.yml
 
 prepare_dir: clean
 	mkdir -p $(RULESET_DIR)
+	mkdir -p $(FUNCTIONS_DIR)
 
 spectral.yml: $(wildcard ./rules/*.yml)
 	docker run --rm\
@@ -52,9 +55,10 @@ spectral-security.yml: $(wildcard ./rules/*.yml) $(wildcard ./security/*.yml)
 		-e TEMPLATE_FILE=rules/rules-template.yml.template\
 		python:3.11-alpine\
 		sh -c "python -m venv /tmp/venv; source /tmp/venv/bin/activate; pip install -r requirements.txt && python builder.py"
+	cp security/functions/* $(FUNCTIONS_DIR)/
 
 spectral-full.yml: spectral.yml spectral-security.yml
-		docker run --rm\
+	docker run --rm\
 		--user ${UID}:${GID} \
 		-v "$(CURDIR)":/app\
 		-w /app\
@@ -65,7 +69,7 @@ spectral-full.yml: spectral.yml spectral-security.yml
 		sh -c "python -m venv /tmp/venv; source /tmp/venv/bin/activate; pip install -r requirements.txt && python builder.py"
 
 spectral-modi.yml: $(wildcard ./rules/*.yml)
-		docker run --rm\
+	docker run --rm\
 		--user ${UID}:${GID} \
 		-v "$(CURDIR)":/app\
 		-w /app\
