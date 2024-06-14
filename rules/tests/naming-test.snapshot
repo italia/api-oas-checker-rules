@@ -1,6 +1,6 @@
 OpenAPI 3.x detected
 
-/code/rules/tests/naming-test.yml
+/code/rules-modi/rules/tests/naming-test.yml
  21:15  information  use-recommended-names-in-parameters  Use recommended variable names in nome.           paths./ko-italian-2ko.parameters[0].name
  22:15  information  use-recommended-names-in-parameters  Use recommended variable names in cf.             paths./ko-italian-2ko.parameters[1].name
  25:13  information  use-recommended-names-in-parameters  Use recommended variable names in name.           paths./ko-english-9ko.parameters[0].name

@@ -1,6 +1,6 @@
 OpenAPI 3.x detected
 
-/code/security/tests/securitySchemes-test.yml
+/code/rules-modi/security/tests/securitySchemes-test.yml
  17:16  warning  sec-securitySchemes-oauth  JWT usage should be detailed in `description` `MyOauth_ko.description` property is not truthy.    components.securitySchemes.MyOauth_ko
  28:20  warning  sec-securitySchemes-oauth  JWT usage should be detailed in `description` must match the pattern '.*RFC8725.*'.               components.securitySchemes.MyOauth2_ko.description
  29:18  warning  sec-securitySchemes-jwt    JWT usage should be detailed in `description` `JWTBearer_ko.description` property is not truthy.  components.securitySchemes.JWTBearer_ko
