@@ -14,7 +14,7 @@ all: clean rules
 clean:
 	rm -rf $(RULESET_DIR)
 
-rules: prepare_dir clean spectral.yml spectral-generic.yml spectral-security.yml spectral-full.yml spectral-modi.yml
+rules: prepare_dir spectral.yml spectral-generic.yml spectral-security.yml spectral-full.yml spectral-modi.yml
 
 prepare_dir: clean
 	mkdir -p $(RULESET_DIR)
@@ -55,7 +55,7 @@ spectral-security.yml: $(wildcard ./rules/*.yml) $(wildcard ./security/*.yml)
 
 spectral-full.yml: spectral.yml spectral-security.yml
 		docker run --rm\
-		--user  ${UID}:${GID} \
+		--user ${UID}:${GID} \
 		-v "$(CURDIR)":/app\
 		-w /app\
 		-e RULES_FOLDERS=rules/,security/\
@@ -66,7 +66,7 @@ spectral-full.yml: spectral.yml spectral-security.yml
 
 spectral-modi.yml: $(wildcard ./rules/*.yml)
 		docker run --rm\
-		--user  ${UID}:${GID} \
+		--user ${UID}:${GID} \
 		-v "$(CURDIR)":/app\
 		-w /app\
 		-e RULES_FOLDERS=rules/\
