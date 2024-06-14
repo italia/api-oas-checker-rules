@@ -12,6 +12,7 @@
 /fonts
 /svg
 yarn-error.log
+/rulesets
 
 # IDE files
 /coverage

@@ -8,7 +8,14 @@ For more information on the model, you can download the document [here](https://
 
 ## Validation Methods
 
-### First Method: The Website
+## Validation Methods Index
+
+1. 🌐 [First Method: the Website](#first-method-the-website)
+2. 🖥️ [Second Method: IDE Extension](#second-method-ide-extension)
+3. 💻 [Third Method: Command Line Interface (CLI)](#third-method-command-line-interface-cli)
+4. ⚙️ [Fourth Method: GitHub Action](#fourth-method-github-action)
+
+### First Method: the Website
 
 #### Italian OpenAPI Validation Checker
 
@@ -92,5 +99,21 @@ By removing the `–D` parameter, the tool will also output warnings and suggest
 The output file, in JSON format, lists all occurrences where the rules were violated.
 
 ![Retrieving the tool](resources/img/cli3.png)
+
+### Fourth Method: GitHub Action
+
+#### GitHub Action
+
+An easily integrable GitHub Action has been created that allows for the validation of OpenAPI interfaces with Spectral for every push and pull request on a repository. This solution automates the validation process, ensuring that every change is checked in accordance with established rules.
+
+#### Customization
+
+The action can be further customized by modifying, for example, the folder where the OpenAPI files are searched and the branches subject to the linter. This allows the action to be tailored to the specific needs of your project.
+
+#### Working Example
+
+At the link [resources/github-action.yml](resources/github-action.yml) you will find a working example of the GitHub Action. The Action always downloads the latest published ruleset, ensuring that validation is always up-to-date with the latest available rules. After execution, at the bottom of the execution page, as shown in the image, an archive with the results of the Spectral analysis on any OpenAPI files is available.
+
+![Example on GitHub in the Action section](resources/img/github1.png)
 
 We hope this guide is useful in ensuring your OpenAPI interfaces meet the required standards for technical interoperability in the Italian Public Administration. Happy validating!

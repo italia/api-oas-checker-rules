@@ -1,0 +1,53 @@
+name: Run Spectral
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  build:
+    name: Run Spectral
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Yarn
+        run: |
+          sudo apt update
+          sudo apt install -y yarn
+
+      - name: Install Spectral CLI
+        run: yarn global add @stoplight/spectral-cli
+
+      - name: Download the latest Spectral Ruleset of the National Interoperability Model
+        run: wget https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml -O spectral-modi.yml
+
+      - name: Run Spectral Lint
+        run: |
+          mkdir -p spectral-reports
+          for file in openapi/*.{json,yml,yaml}; do
+            if [ -f "$file" ]; then
+              output_file="spectral-reports/report-$(basename "$file").json"
+              spectral lint "$file" -e utf8 -D -f json -o "$output_file" -r spectral-modi.yml -v || true
+            fi
+          done
+
+      - name: Check if Spectral Reports contains files
+        id: check_reports
+        run: |
+          if [ -n "$(ls -A spectral-reports)" ]; then
+            echo "reports_exist=true" >> $GITHUB_ENV
+          else
+            echo "reports_exist=false" >> $GITHUB_ENV
+          fi
+
+      - name: Upload Spectral Reports
+        if: env.reports_exist == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: spectral-reports
+          path: spectral-reports
