@@ -1,5 +1,6 @@
+OpenAPI 3.x detected
 
-/Users/simone/Dev/api-oas-checker/rules-modi/rules/tests/naming-test.yml
+/code/rules-modi/rules/tests/naming-test.yml
  21:15  information  use-recommended-names-in-parameters  Use recommended variable names in nome.           paths./ko-italian-2ko.parameters[0].name
  22:15  information  use-recommended-names-in-parameters  Use recommended variable names in cf.             paths./ko-italian-2ko.parameters[1].name
  25:13  information  use-recommended-names-in-parameters  Use recommended variable names in name.           paths./ko-english-9ko.parameters[0].name
@@ -28,3 +29,4 @@
  79:31  information  use-recommended-names-in-schemas     Use recommended variable names in string.         components.schemas.KoSchemaEnglish.properties.fiscal_number.type
 
 ✖ 26 problems (0 errors, 0 warnings, 24 infos, 2 hints)
+
