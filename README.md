@@ -100,6 +100,16 @@ Nel file di output, in formato JSON, è presente la lista di tutte le occorrenze
 
 ![Recupero del tool](resources/img/cli3.png)
 
+#### Alternativa con Docker
+
+In alternativa, è possibile evitare l'installazione di Spectral usando Docker:
+
+```sh
+docker run --rm --entrypoint=sh \
+     -v $(pwd)/api:/locale stoplight/spectral:5.9.1 \
+     -c "spectral lint /locale/file_openapi –e utf8 –D –f json –o percorso_file_output –r percorso_file_regole -v"
+```
+
 ### Quarto Metodo: GitHub Action
 
 #### GitHub Action
