@@ -9,7 +9,7 @@ Per maggiori informazioni sul modello, è possibile scaricare il documento [qui]
 ## Metodi di Validazione
 
 ## Premessa
-Affinché un'interfaccia OpenAPI sia compliant con le prescrizioni del _Modello per l'Interoperabilità Tecnica per la PA_, è necessario che la validazione restituisca zero errori in seguito al controllo con le regole [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml), anche note come **ModI Guidelines**.
+Affinché un'interfaccia OpenAPI sia compliant con le prescrizioni del _Modello per l'Interoperabilità Tecnica per la PA_, è necessario che la validazione restituisca zero errori in seguito al controllo con le regole [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml), anche note come **Italian Guidelines**.
 
 ## Indice dei Metodi di Validazione
 
@@ -26,7 +26,7 @@ Affinché un'interfaccia OpenAPI sia compliant con le prescrizioni del _Modello 
 
 Per eseguire la validazione, è sufficiente:
 1. Inserire il contenuto di un’interfaccia OpenAPI.
-2. Selezionare il set di regole _ModI Guidelines_ se non già selezionato.
+2. Selezionare il set di regole _Italian Guidelines_ se non già selezionato.
 2. Cliccare su **Validate**.
 
 ![Italian OpenAPI Validation Checker](resources/img/website1.png)
@@ -59,7 +59,7 @@ Spectral, lo strumento alla base del sito web, è disponibile anche come estensi
 
 Dalle impostazioni dell’estensione nell’IDE, è necessario configurare il file delle regole. Si può scegliere tra due opzioni:
 1. Avere il file delle regole localmente sul proprio computer e inserire il relativo percorso.
-2. Inserire l’URL remoto (es. GitHub) al file delle regole, come [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml).
+2. Inserire l’URL remoto (es. GitHub) al file delle regole, come quello delle _Italian Guidelines_ [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml).
 
 Per gli altri file delle regole, è possibile far riferimento al [repository ufficiale](https://github.com/italia/api-oas-checker-rules/releases).
 
@@ -93,7 +93,7 @@ spectral lint percorso_file_openapi –e utf8 –D –f json –o percorso_file_
 
 - `percorso_file_openapi`: il percorso al file contenente l’interfaccia OpenAPI da validare;
 - `percorso_file_output`: il percorso al file JSON di output che conterrà tutti gli errori individuati;
-- `percorso_file_regole`: il percorso al file delle regole per la validazione, anche remoto (come appunto [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml)).
+- `percorso_file_regole`: il percorso al file delle regole per la validazione, anche remoto (come appunto le Italian Guidelines, [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml)).
 
 #### Tip
 
