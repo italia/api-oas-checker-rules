@@ -25,8 +25,9 @@ Affinché un'interfaccia OpenAPI sia compliant con le prescrizioni del _Modello 
 [**Italian OpenAPI Validation Checker**](https://italia.github.io/api-oas-checker/) è una web app che permette di validare le interfacce OpenAPI direttamente da browser, identificando tutti gli errori presenti.
 
 Per eseguire la validazione, è sufficiente:
-1. Inserire il contenuto di un’interfaccia OpenAPI.
-2. Selezionare il set di regole _Italian Guidelines_ se non già selezionato.
+1. Aprire un file di specifica OpenAPI in un editor di testo
+2. Copiare e incollare il contenuto all'interno del riquadro del sito.
+3. Selezionare il set di regole _Italian Guidelines_ se non già selezionato.
 2. Cliccare su **Validate**.
 
 ![Italian OpenAPI Validation Checker](resources/img/website1.png)
