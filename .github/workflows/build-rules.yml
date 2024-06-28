@@ -52,27 +52,24 @@ jobs:
       run: |
         git tag $RULESET_VERSION
         git push origin $RULESET_VERSION
-  
-    - name: Create GitHub release
-      id: create_release
-      if: env.LATEST_TAG != env.RULESET_VERSION
-      uses: actions/create-release@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        tag_name: ${{ env.RULESET_VERSION }}
-        release_name: Rules ${{ env.RULESET_VERSION }}
-        draft: false
-        prerelease: false
-  
-    - name: Upload rulesets to release
+
+    - name: Prepare files to release
       if: env.LATEST_TAG != env.RULESET_VERSION
       run: |
-        for file in rulesets/*; do
-          curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Content-Type: $(file --mime-type -b $file)" \
-            --data-binary @$file \
-            ${{ steps.create_release.outputs.upload_url }}?name=$(basename $file)
-        done
+        mkdir -p release
+        if [ -d "rulesets/functions" ]; then
+          zip -r release/functions.zip rulesets/functions
+        fi
+        find rulesets/ -type f \( -name "*.yml" -o -name "*.yaml" \) -exec cp {} release/ \;
+        cd release
+        files=$(find . -type f | tr '\n' ',' | sed 's/,$//')
+        echo "FILES=$files" >> $GITHUB_ENV
+
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: $FILES
+        makeLatest: true
+        name: Rules $RULESET_VERSION
 
     - name: Clean up
       run: make clean
