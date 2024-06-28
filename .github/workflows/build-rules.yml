@@ -20,7 +20,6 @@ jobs:
       run: sudo apt-get install -y make
 
     - name: Check if some folders have changes
-      id: check_changes
       run: |
         CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
         FILES_TO_CHECK="rules/ security/ override/"
@@ -37,11 +36,11 @@ jobs:
 
     - name: Determine ruleset version
       run: |
-        RULESET_VERSION=$(./version.sh $RULES_CHANGED $LATEST_TAG)
+        RULESET_VERSION=$(./version.sh ${{ env.RULESET_VERSION }} ${{ env.LATEST_TAG }})
         echo "RULESET_VERSION=$RULESET_VERSION" >> $GITHUB_ENV
 
     - name: Run Makefile
-      run: make RULESET_VERSION=$RULESET_VERSION
+      run: make RULESET_VERSION=${{ env.RULESET_VERSION }}
 
     - name: Upload rulesets as artifacts
       uses: actions/upload-artifact@v4
@@ -52,8 +51,8 @@ jobs:
     - name: Create new tag
       if: env.LATEST_TAG != env.RULESET_VERSION
       run: |
-        git tag $RULESET_VERSION
-        git push origin $RULESET_VERSION
+        git tag ${{ env.RULESET_VERSION }} ${{ env.GITHUB_SHA }}
+        git push origin ${{ env.RULESET_VERSION }}
 
     - name: Prepare files to release
       if: env.LATEST_TAG != env.RULESET_VERSION
@@ -62,12 +61,13 @@ jobs:
         if [ -d "rulesets/functions" ]; then
           zip -r release/functions.zip rulesets/functions
         fi
-        find rulesets/ -type f \( -name "*.yml" -o -name "*.yaml" \) -exec cp {} release/ \;
+        find $(pwd)/rulesets/ -type f \( -name "*.yml" -o -name "*.yaml" \) -exec cp {} release/ \;
         cd release
-        files=$(find . -type f | tr '\n' ',' | sed 's/,$//')
+        files=$(find $(pwd) -type f | tr '\n' ',' | sed 's/,$//')
         echo "FILES=$files" >> $GITHUB_ENV
 
     - uses: ncipollo/release-action@v1
+      if: env.LATEST_TAG != env.RULESET_VERSION
       with:
         artifacts: ${{ env.FILES }}
         makeLatest: true
