@@ -24,11 +24,11 @@ jobs:
         FILES_TO_CHECK="rules/ security/ override/"
         for FILE in $FILES_TO_CHECK; do
           if echo "$CHANGED_FILES" | grep -q "$FILE"; then
-            echo "RULES_CHANGED=False" >> $GITHUB_ENV
+            echo "RULES_CHANGED=false" >> $GITHUB_ENV
             exit 0
           fi
         done
-        echo "RULES_CHANGED=True" >> $GITHUB_ENV
+        echo "RULES_CHANGED=true" >> $GITHUB_ENV
 
     - name: Get the latest tag
       run: echo "LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_ENV
