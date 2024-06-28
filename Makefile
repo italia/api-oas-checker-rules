@@ -28,7 +28,9 @@ spectral.yml: $(wildcard ./rules/*.yml)
 		-v "$(CURDIR)":/app\
 		-w /app\
 		-e RULES_FOLDERS=rules/\
-		-e RULESET_NAME=$(RULESET_DIR)/$@\
+		-e RULESET_NAME="Italian Guidelines Extended"\
+		-e RULESET_VERSION=1.0\
+		-e RULESET_FILE_NAME=$(RULESET_DIR)/$@\
 		-e TEMPLATE_FILE=rules/rules-template.yml.template\
 		python:3.11-alpine\
 		sh -c "python -m venv /tmp/venv; source /tmp/venv/bin/activate; pip install -r requirements.txt && python builder.py"
@@ -39,7 +41,9 @@ spectral-generic.yml: $(wildcard ./rules/*.yml)
 		-v "$(CURDIR)":/app\
 		-w /app\
 		-e RULES_FOLDERS=rules/\
-		-e RULESET_NAME=$(RULESET_DIR)/$@\
+		-e RULESET_NAME="Best Practices Only"\
+		-e RULESET_VERSION=1.0\
+		-e RULESET_FILE_NAME=$(RULESET_DIR)/$@\
 		-e TEMPLATE_FILE=rules/rules-template.yml.template\
 		-e CONFIG_FILE=override/spectral-generic-override.yml\
 		python:3.11-alpine\
@@ -51,7 +55,9 @@ spectral-security.yml: $(wildcard ./rules/*.yml) $(wildcard ./security/*.yml)
 		-v "$(CURDIR)":/app\
 		-w /app\
 		-e RULES_FOLDERS=security/\
-		-e RULESET_NAME=$(RULESET_DIR)/$@\
+		-e RULESET_NAME="Extra Security Checks"\
+		-e RULESET_VERSION=1.0\
+		-e RULESET_FILE_NAME=$(RULESET_DIR)/$@\
 		-e TEMPLATE_FILE=rules/rules-template.yml.template\
 		python:3.11-alpine\
 		sh -c "python -m venv /tmp/venv; source /tmp/venv/bin/activate; pip install -r requirements.txt && python builder.py"
@@ -63,7 +69,9 @@ spectral-full.yml: spectral.yml spectral-security.yml
 		-v "$(CURDIR)":/app\
 		-w /app\
 		-e RULES_FOLDERS=rules/,security/\
-		-e RULESET_NAME=$(RULESET_DIR)/$@\
+		-e RULESET_NAME="Italian Guidelines Extended + Extra Security Checks"\
+		-e RULESET_VERSION=1.0\
+		-e RULESET_FILE_NAME=$(RULESET_DIR)/$@\
 		-e TEMPLATE_FILE=rules/rules-template.yml.template\
 		python:3.11-alpine\
 		sh -c "python -m venv /tmp/venv; source /tmp/venv/bin/activate; pip install -r requirements.txt && python builder.py"
@@ -74,7 +82,9 @@ spectral-modi.yml: $(wildcard ./rules/*.yml)
 		-v "$(CURDIR)":/app\
 		-w /app\
 		-e RULES_FOLDERS=rules/\
-		-e RULESET_NAME=$(RULESET_DIR)/$@\
+		-e RULESET_NAME="Italian Guidelines"\
+		-e RULESET_VERSION=1.0\
+		-e RULESET_FILE_NAME=$(RULESET_DIR)/$@\
 		-e TEMPLATE_FILE=rules/rules-template.yml.template\
 		-e CONFIG_FILE=override/spectral-modi-override.yml\
 		python:3.11-alpine\

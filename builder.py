@@ -166,25 +166,23 @@ def main():
     """
     Main function to load environment variables, retrieve rule files, and merge them according to the configuration.
     """
-    RULES_FOLDERS = os.getenv("RULES_FOLDERS", None)
     RULESET_NAME = os.getenv("RULESET_NAME", None)
+    RULESET_VERSION = os.getenv("RULESET_VERSION", None)
+    RULESET_FILE_NAME = os.getenv("RULESET_FILE_NAME", None)
+    RULES_FOLDERS = os.getenv("RULES_FOLDERS", None)
     CONFIG_FILE = os.getenv("CONFIG_FILE", None)
     TEMPLATE_FILE = os.getenv("TEMPLATE_FILE", None)
 
     if not RULES_FOLDERS:
         raise ValueError("RULES_FOLDERS environment variable is required.")
     
-    if not RULESET_NAME:
-        raise ValueError("RULESET_NAME environment variable is required.")
+    if not RULESET_FILE_NAME:
+        raise ValueError("RULESET_FILE_NAME environment variable is required.")
 
     # Split the RULES_FOLDERS by commas and remove any leading/trailing whitespace
     rules_folders = [folder.strip() for folder in RULES_FOLDERS.split(",")]
     yaml_files = get_rules_files(rules_folders)
     yaml_files.sort()
-
-    template_content = ""
-    if TEMPLATE_FILE:
-        template_content = load_template(TEMPLATE_FILE)
 
     configuration = {}
     if CONFIG_FILE:
@@ -197,11 +195,22 @@ def main():
                        Dumper=NoAliasDumper,
                        indent=4,
                        sort_keys=False)
-    # Prepend the template content if it exists
-    output = template_content + "\n" + output if template_content else output
+    
+    # Prepend the ruleset info and the template content if present
+    ruleset_info = ""
+    if RULESET_NAME and RULESET_VERSION:
+        RULESET_NAME = RULESET_NAME.strip()
+        RULESET_VERSION = RULESET_VERSION.strip()
+        ruleset_info = "#\tRuleset name: %s\n#\tRuleset version: %s\n\n" % (RULESET_NAME, RULESET_VERSION)
+
+    template_content = ""
+    if TEMPLATE_FILE:
+        template_content = load_template(TEMPLATE_FILE) + "\n"
+
+    output = ruleset_info + template_content + output if template_content else output
 
     # Write the output YAML to the specified file
-    with open(RULESET_NAME, "w", encoding="utf-8") as f:
+    with open(RULESET_FILE_NAME, "w", encoding="utf-8") as f:
         f.write(output)
 
 if __name__ == "__main__":
