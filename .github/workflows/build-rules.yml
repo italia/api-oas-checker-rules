@@ -24,11 +24,11 @@ jobs:
         FILES_TO_CHECK="rules/ security/ override/"
         for FILE in $FILES_TO_CHECK; do
           if echo "$CHANGED_FILES" | grep -q "$FILE"; then
-            echo "RULES_CHANGED=false" >> $GITHUB_ENV
+            echo "RULES_CHANGED=true" >> $GITHUB_ENV
             exit 0
           fi
         done
-        echo "RULES_CHANGED=true" >> $GITHUB_ENV
+        echo "RULES_CHANGED=false" >> $GITHUB_ENV
 
     - name: Get the latest tag
       run: echo "LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_ENV
@@ -58,6 +58,7 @@ jobs:
       if: env.LATEST_TAG != env.RULESET_VERSION
       uses: actions/create-release@v1
       with:
+        token: ${{ secrets.GITHUB_TOKEN }}
         tag_name: ${{ env.RULESET_VERSION }}
         release_name: Rules ${{ env.RULESET_VERSION }}
         draft: false
