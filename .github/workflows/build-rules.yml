@@ -36,7 +36,7 @@ jobs:
 
     - name: Determine ruleset version
       run: |
-        RULESET_VERSION=$(./version.sh ${{ env.RULESET_VERSION }} ${{ env.LATEST_TAG }})
+        RULESET_VERSION=$(./version.sh ${{ env.RULES_CHANGED }} ${{ env.LATEST_TAG }})
         echo "RULESET_VERSION=$RULESET_VERSION" >> $GITHUB_ENV
 
     - name: Run Makefile
