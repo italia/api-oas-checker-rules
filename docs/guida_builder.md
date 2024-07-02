@@ -1,4 +1,4 @@
-# Guida alla buil delle regole Spectral per verificare per le specifiche OpenAPI (OAS) del ModI
+# Guida alla build delle regole Spectral per verificare per le specifiche OpenAPI (OAS) del ModI
 
 ## Introduzione
 
