@@ -94,6 +94,7 @@ def main():
     out_path = args.out
     file_path = os.path.join(out_path, doc_filename)
     write_html_to_file(file_path, html_content)
+    print("Documentation for %s saved as %s." % (title, file_path))
 
 if __name__ == "__main__":
     main()
