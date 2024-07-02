@@ -92,7 +92,7 @@ spectral-modi.yml: $(wildcard ./rules/*.yml)
 		python:3.11-alpine\
 		sh -c "python -m venv /tmp/venv; source /tmp/venv/bin/activate; pip install -r requirements.txt && python builder.py"
 
-docs:  $(wildcard ./rulesets/*.yml)
+docs:  $(wildcard /app/rulesets/*.yml)
 	docker run --rm \
 		--user ${UID}:${GID} \
 		-v "$(CURDIR)":/app \
