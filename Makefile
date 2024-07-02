@@ -12,7 +12,7 @@ RULE_FILES := spectral.yml spectral-full.yml spectral-security.yml spectral-gene
 RULESET_DIR := rulesets
 FUNCTIONS_DIR:= $(RULESET_DIR)/functions
 
-all: clean rules
+all: clean rules docs
 
 clean:
 	rm -rf $(RULESET_DIR)
@@ -91,3 +91,16 @@ spectral-modi.yml: $(wildcard ./rules/*.yml)
 		-e CONFIG_FILE=override/spectral-modi-override.yml\
 		python:3.11-alpine\
 		sh -c "python -m venv /tmp/venv; source /tmp/venv/bin/activate; pip install -r requirements.txt && python builder.py"
+
+docs:
+	docker run --rm \
+		--user ${UID}:${GID} \
+		-v "$(CURDIR)":/app \
+		-w /app/docs-generator \
+		python:3.11-alpine \
+		sh -c 'python -m venv /tmp/venv; \
+		source /tmp/venv/bin/activate; \
+		pip install -r requirements.txt; \
+		for file in /app/rulesets/*.yml; do \
+			python generator.py --file "$$file" --out "/app/rulesets"; \
+		done'
