@@ -7,7 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+    
     steps:
     - name: Check out repository
       uses: actions/checkout@v4
@@ -17,14 +19,65 @@ jobs:
     - name: Set up Make
       run: sudo apt-get install -y make
 
+    - name: Check if some folders have changes
+      run: |
+        CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+        FILES_TO_CHECK="rules/ security/ override/"
+        for FILE in $FILES_TO_CHECK; do
+          if echo "$CHANGED_FILES" | grep -q "$FILE"; then
+            echo "RULES_CHANGED=true" >> $GITHUB_ENV
+            exit 0
+          fi
+        done
+        echo "RULES_CHANGED=false" >> $GITHUB_ENV
+
+    - name: Get the latest tag
+      run: echo "LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_ENV
+
+    - name: Determine ruleset version
+      run: |
+        RULESET_VERSION=$(./version.sh ${{ env.RULES_CHANGED }} ${{ env.LATEST_TAG }})
+        echo "RULESET_VERSION=$RULESET_VERSION" >> $GITHUB_ENV
+
     - name: Run Makefile
-      run: make
+      run: make RULESET_VERSION=${{ env.RULESET_VERSION }}
 
     - name: Upload rulesets as artifacts
       uses: actions/upload-artifact@v4
       with:
         name: rulesets
         path: rulesets/
+
+    - name: Create new tag in case of new version
+      if: env.LATEST_TAG != env.RULESET_VERSION
+      run: |
+        git tag ${{ env.RULESET_VERSION }} ${{ env.GITHUB_SHA }}
+        git push origin ${{ env.RULESET_VERSION }}
+      
+    - name: Remove the release associated with the last tag (if not new)
+      if: env.LATEST_TAG == env.RULESET_VERSION
+      run: |
+        gh release delete ${{env.LATEST_TAG}}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Prepare files to release
+      run: |
+        mkdir -p release
+        if [ -d "rulesets/functions" ]; then
+          zip -r release/functions.zip rulesets/functions
+        fi
+        find $(pwd)/rulesets/ -type f \( -name "*.yml" -o -name "*.yaml" -o -name "*.html" \) -exec cp {} release/ \;
+        cd release
+        files=$(find $(pwd) -type f | tr '\n' ',' | sed 's/,$//')
+        echo "FILES=$files" >> $GITHUB_ENV
+
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: ${{ env.FILES }}
+        makeLatest: true
+        name: Rules ${{ env.RULESET_VERSION }}
+        tag: ${{ env.RULESET_VERSION }}
 
     - name: Clean up
       run: make clean
