@@ -52,14 +52,20 @@ jobs:
         name: rulesets
         path: rulesets/
 
-    - name: Create new tag
+    - name: Create new tag in case of new version
       if: env.LATEST_TAG != env.RULESET_VERSION
       run: |
         git tag ${{ env.RULESET_VERSION }} ${{ env.GITHUB_SHA }}
         git push origin ${{ env.RULESET_VERSION }}
+      
+    - name: Remove the release associated with the last tag (if not new)
+      if: env.LATEST_TAG == env.RULESET_VERSION
+      run: |
+        gh release delete ${{env.LATEST_TAG}}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Prepare files to release
-      if: env.LATEST_TAG != env.RULESET_VERSION
       run: |
         mkdir -p release
         if [ -d "rulesets/functions" ]; then
@@ -71,7 +77,6 @@ jobs:
         echo "FILES=$files" >> $GITHUB_ENV
 
     - uses: ncipollo/release-action@v1
-      if: env.LATEST_TAG != env.RULESET_VERSION
       with:
         artifacts: ${{ env.FILES }}
         makeLatest: true
