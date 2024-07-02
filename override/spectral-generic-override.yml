@@ -6,3 +6,4 @@ rules:
     - has-x-summary
     - integer-format
     - number-format
+    
