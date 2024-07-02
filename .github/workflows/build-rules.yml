@@ -61,7 +61,7 @@ jobs:
         if [ -d "rulesets/functions" ]; then
           zip -r release/functions.zip rulesets/functions
         fi
-        find $(pwd)/rulesets/ -type f \( -name "*.yml" -o -name "*.yaml" \) -exec cp {} release/ \;
+        find $(pwd)/rulesets/ -type f \( -name "*.yml" -o -name "*.yaml" -o -name "*.html" \) -exec cp {} release/ \;
         cd release
         files=$(find $(pwd) -type f | tr '\n' ',' | sed 's/,$//')
         echo "FILES=$files" >> $GITHUB_ENV
