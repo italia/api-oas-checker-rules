@@ -5,7 +5,7 @@ Questo repository contiene le regole per la verifica delle specifiche OpenAPI se
 ## Guide per l'utilizzo
 
 * [Guida per la validazione](docs/guida_validazione.md), anche in [inglese](docs/guida_validazione_en.md)
-* [Guida per gli sviluppatori](docs/guida_sviluppatori.md)
+* [Guida per developer](docs/guida_developer.md)
 * [Guida per gli enti](docs/guida_enti.md)
 * [Guida per costruire le regole](docs/guida_builder.md)
 
