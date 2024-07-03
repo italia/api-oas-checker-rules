@@ -1,4 +1,4 @@
-# Guida alla verifica delle interfacce OpenAPI per gli sviluppatori
+# Guida alla verifica delle interfacce OpenAPI per developer
 
 Durante lo sviluppo di un'API può essere utile avere una visione in tempo reale di errori e warning all'interno della specifica.
 
