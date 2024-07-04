@@ -1,17 +1,17 @@
-# Guida alla Validazione delle OpenAPI per l'Interoperabilità Tecnica della PA Italiana
+# Guida alla Verifica delle OpenAPI per l'Interoperabilità Tecnica della PA Italiana
 
 ## Obiettivo della Guida
 
-Questa guida ha l'obiettivo di fornire le istruzioni necessarie per validare le interfacce OpenAPI affinché aderiscano alle regole del Modello di Interoperabilità Tecnica per la Pubblica Amministrazione (PA) Italiana.
+Questa guida ha l'obiettivo di fornire le istruzioni necessarie per verificare le interfacce OpenAPI affinché aderiscano alle regole del Modello di Interoperabilità Tecnica per la Pubblica Amministrazione (PA) Italiana.
 
 Per maggiori informazioni sul modello, è possibile scaricare il documento [qui](https://www.agid.gov.it/sites/agid/files/2024-05/linee_guida_interoperabilit_tecnica_pa.pdf) e aprirlo con Adobe Reader per visualizzare gli allegati. L’allegato con le regole è intitolato **Raccomandazioni di implementazione**.
 
-## Metodi di Validazione
+## Metodi di Verifica
 
 ## Premessa
-Affinché un'interfaccia OpenAPI sia compliant con le prescrizioni del _Modello per l'Interoperabilità Tecnica per la PA_, è necessario che la validazione restituisca zero errori in seguito al controllo con le regole [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml), anche note come **Italian Guidelines**.
+Affinché un'interfaccia OpenAPI sia compliant con le prescrizioni del _Modello per l'Interoperabilità Tecnica per la PA_, è necessario che la verifica restituisca zero errori in seguito al controllo con le regole [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml), anche note come **Italian Guidelines**.
 
-## Indice dei Metodi di Validazione
+## Indice dei Metodi di Verifica
 
 1. 🌐 [Primo Metodo: il Sito Web](#primo-metodo-il-sito-web)
 2. 🖥️ [Secondo Metodo: l'estensione per IDE](#secondo-metodo-lestensione-per-ide)
@@ -20,17 +20,17 @@ Affinché un'interfaccia OpenAPI sia compliant con le prescrizioni del _Modello 
 
 ### Primo Metodo: il Sito Web
 
-#### Italian OpenAPI Validation Checker
+#### Italian OpenAPI Checker
 
-[**Italian OpenAPI Validation Checker**](https://italia.github.io/api-oas-checker/) è una web app che permette di validare le interfacce OpenAPI direttamente da browser, identificando tutti gli errori presenti.
+[**Italian OpenAPI Checker**](https://italia.github.io/api-oas-checker/) è una web app che permette di verificare le interfacce OpenAPI direttamente da browser, identificando tutti gli errori presenti.
 
-Per eseguire la validazione, è sufficiente:
+Per eseguire la verifica, è sufficiente:
 1. Aprire un file di specifica OpenAPI in un editor di testo
 2. Copiare e incollare il contenuto all'interno del riquadro del sito.
 3. Selezionare il set di regole _Italian Guidelines_ se non già selezionato.
-2. Cliccare su **Validate**.
+2. Cliccare su **Check**.
 
-![Italian OpenAPI Validation Checker](resources/img/website1.png)
+![Italian OpenAPI Checker](resources/img/website1.png)
 
 #### Importante
 
@@ -46,7 +46,7 @@ Spectral, lo strumento alla base del sito web, è disponibile anche come estensi
 
 > **Che cos'è Spectral?**
 > 
-> Spectral è uno strumento di linting open-source progettato per la validazione, la formattazione e la pulizia dei file JSON e YAML. È particolarmente utile per la verifica delle specifiche OpenAPI, garantendo che aderiscono agli standard e alle best practices definite.
+> Spectral è uno strumento di linting open-source progettato per la verifica, la formattazione e la pulizia dei file JSON e YAML. È particolarmente utile per la verifica delle specifiche OpenAPI, garantendo che aderiscono agli standard e alle best practices definite.
 > 
 > Per ulteriori informazioni, visita il sito ufficiale di [Spectral](https://stoplight.io/open-source/spectral/).
 
@@ -76,25 +76,31 @@ L’estensione segnala in tempo reale gli errori e i warning rilevati nei file O
 
 #### Linea di Comando (CLI)
 
-Spectral è utilizzabile anche da linea di comando (CLI) per fare validazione massiva delle OpenAPI.
+Spectral è utilizzabile anche da linea di comando (CLI) per fare verifica massiva delle OpenAPI.
 
 Su GitHub, a [questo link](https://github.com/stoplightio/spectral), è disponibile una guida per l’installazione di Spectral in locale, tramite npm (maggiori info [qui](https://www.npmjs.com/)) e yarn (maggiori info [qui](https://yarnpkg.com/)).
 
 ![Recupero del tool](resources/img/cli1.png)
 
-Per validare un file OpenAPI, utilizzare il seguente comando da terminale:
+Per verificare un file OpenAPI, utilizzare il seguente comando da terminale:
 
 ```sh
-spectral lint percorso_file_openapi –e utf8 –D –f json –o percorso_file_output –r percorso_file_regole -v
+spectral lint percorso_file_openapi\
+     –e utf8\
+     –D\
+     –f json\
+     –o percorso_file_output\
+     –r percorso_file_regole\
+     -v
 ```
 
 ![Comando del tool](resources/img/cli2.png)
 
 #### Parametri del Comando
 
-- `percorso_file_openapi`: il percorso al file contenente l’interfaccia OpenAPI da validare;
+- `percorso_file_openapi`: il percorso al file contenente l’interfaccia OpenAPI da verificare;
 - `percorso_file_output`: il percorso al file JSON di output che conterrà tutti gli errori individuati;
-- `percorso_file_regole`: il percorso al file delle regole per la validazione, anche remoto (come appunto le Italian Guidelines, [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml)).
+- `percorso_file_regole`: il percorso al file delle regole per la verifica, anche remoto (come appunto le Italian Guidelines, [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml)).
 
 #### Tip
 
@@ -109,8 +115,11 @@ Nel file di output, in formato JSON, è presente la lista di tutte le occorrenze
 In alternativa, è possibile evitare l'installazione di Spectral usando Docker:
 
 ```sh
-docker run --rm --entrypoint=sh \
-     -v $(pwd)/api:/locale stoplight/spectral:5.9.1 \
+docker run\
+     --rm\
+     --entrypoint=sh\
+     -v $(pwd)/api:/locale\
+     stoplight/spectral:5.9.1\
      -c "spectral lint /locale/file_openapi –e utf8 –D –f json –o percorso_file_output –r percorso_file_regole -v"
 ```
 
@@ -118,7 +127,7 @@ docker run --rm --entrypoint=sh \
 
 #### GitHub Action
 
-È stata realizzata una GitHub Action facilmente integrabile che consente di effettuare la validazione delle interfacce OpenAPI con Spectral per ogni push e pull request su una repository. Questa soluzione automatizza il processo di validazione, garantendo che ogni modifica venga controllata in conformità con le regole stabilite.
+È stata realizzata una GitHub Action facilmente integrabile che consente di effettuare la verifica delle interfacce OpenAPI con Spectral per ogni push e pull request su una repository. Questa soluzione automatizza il processo di verifica, garantendo che ogni modifica venga controllata in conformità con le regole stabilite.
 
 #### Personalizzazione
 
@@ -126,8 +135,8 @@ docker run --rm --entrypoint=sh \
 
 #### Esempio Funzionante
 
-Al link [resources/github-action.yml](resources/github-action.yml) si trova un esempio già funzionante di GitHub Action. La Action scarica sempre l’ultimo ruleset pubblicato, assicurando che la validazione sia sempre aggiornata con le ultime regole disponibili. A valle dell'esecuzione, nella pagina di esecuzione è disponibile, in fondo, come da immagine, un archivio coi risultati dell'analisi di Spectral sugli eventuali file OpenAPI.
+Al link [resources/github-action.yml](resources/github-action.yml) si trova un esempio già funzionante di GitHub Action. La Action scarica sempre l’ultimo ruleset pubblicato, assicurando che la verifica sia sempre aggiornata con le ultime regole disponibili. A valle dell'esecuzione, nella pagina di esecuzione è disponibile, in fondo, come da immagine, un archivio coi risultati dell'analisi di Spectral sugli eventuali file OpenAPI.
 
 ![Esempio su GitHub nella sezione Action](resources/img/github1.png)
 
-Speriamo che questa guida sia utile per garantire che le vostre interfacce OpenAPI rispettino gli standard richiesti per l'interoperabilità tecnica nella Pubblica Amministrazione Italiana. Buona validazione!
+Speriamo che questa guida sia utile per garantire che le vostre interfacce OpenAPI rispettino gli standard richiesti per l'interoperabilità tecnica nella Pubblica Amministrazione Italiana. Buona verifica!
