@@ -1,10 +1,10 @@
-# Guida alla build delle regole Spectral per verificare per le specifiche OpenAPI (OAS) del ModI
+# 🛠️ Guida alla Build delle Regole Spectral per Verificare le Specifiche OpenAPI (OAS) del ModI
 
-## Introduzione
+## 🚀 Introduzione
 
 Questo repository contiene un insieme di regole per Spectral, utilizzate per verificare le interfacce OpenAPI riguardo al rispetto delle specifiche OpenAPI e dei modelli di interoperabilità tecnica per la Pubblica Amministrazione (PA).
 
-## Struttura delle Cartelle
+## 📂 Struttura delle Cartelle
 
 Attualmente, sono tre le cartelle di interesse:
 
@@ -12,7 +12,7 @@ Attualmente, sono tre le cartelle di interesse:
 - **security**: contiene regole relative agli aspetti di sicurezza, tutte opzionali;
 - **override**: contiene file che, passati in input al builder, consentono di disattivare selettivamente alcune regole o di fare override delle relative proprietà. Al momento, si fa override solo della proprietà "severity" di Spectral, che indica la gravità della violazione. Tuttavia, il builder è progettato per supportare tutti i possibili altri override.
 
-## Come Fare la Build
+## 🔧 Come Fare la Build
 
 La build delle regole avviene in un container Docker. Dal `Makefile` incluso nel repository, è possibile evincere come eseguire il processo di build. Di seguito viene descritto il comando utilizzato per la build:
 
@@ -31,7 +31,7 @@ La build delle regole avviene in un container Docker. Dal `Makefile` incluso nel
 		sh -c "python -m venv /tmp/venv; source /tmp/venv/bin/activate; pip install -r requirements.txt && python builder.py"
 ```
 
-### Spiegazione del Comando
+### 💡 Spiegazione del Comando
 
 - `docker run --rm`: Avvia un container Docker e lo rimuove al termine dell'esecuzione.
 - `--user ${UID}:${GID}`: Esegue il container con l'ID utente e il gruppo corrente.
@@ -50,6 +50,6 @@ La build delle regole avviene in un container Docker. Dal `Makefile` incluso nel
   3. Installa le dipendenze elencate in `requirements.txt`.
   4. Esegue lo script `builder.py` per costruire le regole.
 
-## Conclusione
+## 🏁 Conclusione
 
 Seguendo le istruzioni sopra descritte, è possibile effettuare la build delle regole per Spectral in modo da verificare le interfacce OpenAPI secondo le specifiche richieste.
