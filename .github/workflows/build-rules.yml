@@ -3,10 +3,10 @@ name: Build Rules
 on:
   push:
     branches:
-      master
+      - '*'
   pull_request:
     branches:
-      master
+      - '*'
 
 jobs:
   build:
@@ -53,19 +53,20 @@ jobs:
         path: rulesets/
 
     - name: Create new tag in case of new version
-      if: env.LATEST_TAG != env.RULESET_VERSION
+      if: github.ref == 'refs/heads/master' && env.LATEST_TAG != env.RULESET_VERSION
       run: |
         git tag ${{ env.RULESET_VERSION }} ${{ env.GITHUB_SHA }}
         git push origin ${{ env.RULESET_VERSION }}
       
     - name: Remove the release associated with the last tag (if not new)
-      if: env.LATEST_TAG == env.RULESET_VERSION
+      if: github.ref == 'refs/heads/master' && env.LATEST_TAG == env.RULESET_VERSION
       run: |
         gh release delete ${{env.LATEST_TAG}}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Prepare files to release
+      if: github.ref == 'refs/heads/master'
       run: |
         mkdir -p release
         if [ -d "rulesets/functions" ]; then
@@ -77,6 +78,7 @@ jobs:
         echo "FILES=$files" >> $GITHUB_ENV
 
     - uses: ncipollo/release-action@v1
+      if: github.ref == 'refs/heads/master'
       with:
         artifacts: ${{ env.FILES }}
         makeLatest: true
