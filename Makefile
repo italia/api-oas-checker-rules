@@ -2,6 +2,7 @@
 # Tasks set to build ruleset, bundle js, test and deploy
 #
 #
+.PHONY: docs
 
 RULESET_VERSION ?= 0.1
 
@@ -92,7 +93,7 @@ spectral-modi.yml: $(wildcard ./rules/*.yml)
 		python:3.11-alpine\
 		sh -c "python -m venv /tmp/venv; source /tmp/venv/bin/activate; pip install -r requirements.txt && python builder.py"
 
-docs:  $(wildcard /app/rulesets/*.yml)
+docs:
 	docker run --rm \
 		--user ${UID}:${GID} \
 		-v "$(CURDIR)":/app \
