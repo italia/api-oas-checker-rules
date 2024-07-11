@@ -22,29 +22,15 @@ rules:
     - use-recommended-names-in-parameters
     - use-recommended-names-in-schemas
     - use-semver
-
-  override:
-    http-request-GET-no-body:
-      severity: error
-    http-response-no-content-204-205:
-      severity: error
-    integer-format:
-      severity: error
-    no-swagger-2:
-      severity: error
-    number-format:
-      severity: error
-    paths-kebab-case:
-      severity: warn
-    paths-status:
-      severity: error
-    paths-status-return-problem:
-      severity: error
-    sec-apikeys-url:
-      severity: error
-    sec-credentials-parameters:
-      severity: error
-    servers-use-https:
-      severity: error
-    use-problem-json-for-errors:
-      severity: error
+    - http-request-GET-no-body
+    - http-response-no-content-204-205
+    - integer-format
+    - no-swagger-2
+    - number-format
+    - paths-status
+    - paths-kebab-case
+    - paths-status-return-problem
+    - sec-apikeys-url
+    - sec-credentials-parameters
+    - servers-use-https
+    - use-problem-json-for-errors
