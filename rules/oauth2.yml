@@ -7,7 +7,7 @@ rules:
       OAuth endpoints must use https://
     formats:
       - oas3
-    severity: error
+    severity: warn
     recommended: true
     given:
       - >-
@@ -37,7 +37,7 @@ rules:
       [RFC7636] Do not use oauth2 insecure flow: "{{property}}".
     formats:
       - oas3
-    severity: error
+    severity: warn
     recommended: true
     given:
       - >-

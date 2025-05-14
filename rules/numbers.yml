@@ -14,7 +14,7 @@ rules:
       [RAC_REST_FORMAT_004] Schema of type number or integer must specify a format. {{path}}
     formats:
     - oas3
-    severity: error
+    severity: warn
     recommended: true
     given: >-
       $..[?(@ && @.type=="number")]

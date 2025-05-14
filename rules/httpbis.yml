@@ -9,7 +9,7 @@ rules:
       See RFC7231 for further information.
     message: >-
       [RFC7231] A GET request MUST NOT accept a requestBody: {{error}}.
-    severity: error
+    severity: warn
     given: $.paths..get.requestBody
     then:
       function: undefined
@@ -39,7 +39,7 @@ rules:
 
     message: >-
       [RFC7231] 204 and 205 responses MUST NOT have a content: {{error}}.
-    severity: error
+    severity: warn
     given: '$..paths..responses[?(@property && @property.match("(204|205)") )]'
     then:
       field: content
