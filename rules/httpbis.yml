@@ -1,15 +1,15 @@
 rules:
   http-request-GET-no-body:
     description: |-
-      A `GET` request MUST NOT accept a `requestBody`
+      A `GET` request SHOULD NOT accept a `requestBody`
       because this behavior is not interoperable.
       Moreover intermediaries such as reverse proxies
       are allowed to strip the content from `GET` requests.
 
       See RFC7231 for further information.
     message: >-
-      [RFC7231] A GET request MUST NOT accept a requestBody: {{error}}.
-    severity: error
+      [RFC7231] A GET request SHOULD NOT accept a requestBody: {{error}}.
+    severity: warn
     given: $.paths..get.requestBody
     then:
       function: undefined
@@ -33,13 +33,13 @@ rules:
       expected to include a content,
       which might have zero length: 200, 201, 202, 203, 206.
 
-      Responses with status code 204 and 205 MUST NOT include a content.
+      Responses with status code 204 and 205 SHOULD NOT include a content.
 
       See RFC7231 for further information.
 
     message: >-
-      [RFC7231] 204 and 205 responses MUST NOT have a content: {{error}}.
-    severity: error
+      [RFC7231] 204 and 205 responses SHOULD NOT have a content: {{error}}.
+    severity: warn
     given: '$..paths..responses[?(@property && @property.match("(204|205)") )]'
     then:
       field: content

@@ -1,7 +1,7 @@
 rules:
   has-x-summary:
     message: >-
-      API MUST have an one-liner #/info/x-summary field
+      API SHOULD have an one-liner #/info/x-summary field
       containing a brief description.
     description: >-
       The `#/info/x-summary` can be used to specify a brief, one-liner
@@ -11,7 +11,7 @@ rules:
 
       In OAS3.1 you can use the standard `#/info/summary` field.
     given: $
-    severity: error
+    severity: warn
     recommended: true
     type: style
     formats:
@@ -22,13 +22,13 @@ rules:
 
   has-termsOfService:
     message: >-
-      API MUST reference the URL of the Terms of Service
+      API SHOULD reference the URL of the Terms of Service
       in #/info/termsOfService.
     description: >-
-      API MUST reference the URL of the Terms of Service
+      API SHOULD reference the URL of the Terms of Service
       in `#/info/termsOfService`
     given: $
-    severity: error
+    severity: warn
     recommended: true
     type: style
     formats:
@@ -39,9 +39,9 @@ rules:
 
   has-contact:
     description: >-
-      API MUST reference a contact, either url or email in #/info/contact
+      API SHOULD reference a contact, either url or email in #/info/contact
     given: $
-    severity: error
+    severity: warn
     recommended: true
     type: style
     formats:
@@ -67,9 +67,9 @@ rules:
 
   use-semver:
     description: |-
-      The API version field should follow
+      The API version field SHOULD follow
       [semantic versioning](https://semver.org/#semantic-versioning-specification-semver).
-    severity: error
+    severity: warn
     recommended: true
     message: >-
       Specs should follow semantic versioning. {{value}} is not a valid version.

@@ -2,12 +2,12 @@ rules:
   # OAuth2 specific
   sec-securitySchemes-oauth-http:
     description: |-
-      OAuth2 endpoints must use `https://`
+      OAuth2 endpoints SHOULD use `https://`
     message: >-
-      OAuth endpoints must use https://
+      OAuth endpoints SHOULD use https://
     formats:
       - oas3
-    severity: error
+    severity: warn
     recommended: true
     given:
       - >-
@@ -34,10 +34,10 @@ rules:
       For further info, see the OAuth2 section of [API Security Guidelines](https://docs.italia.it/AgID/documenti-in-consultazione/lg-sicurezza-interoperabilita-docs/).
 
     message: >-
-      [RFC7636] Do not use oauth2 insecure flow: "{{property}}".
+      [RFC7636] Do not prefer oauth2 insecure flow: "{{property}}".
     formats:
       - oas3
-    severity: error
+    severity: warn
     recommended: true
     given:
       - >-

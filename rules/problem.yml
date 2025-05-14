@@ -7,7 +7,7 @@ rules:
       enables client to properly implement an error management strategy,
       with positive impacts for users.
 
-      Error responses should return one of the media-type
+      Error responses SHOULD return one of the media-type
       defined in RFC7807:
       - `application/problem+json`
       - `application/problem+xml`
@@ -24,10 +24,10 @@ rules:
       ```
 
     message: |-
-      [RFC7807] Error responses should support RFC7807 in {{path}}.
+      [RFC7807] Error responses SHOULD support RFC7807 in {{path}}.
     formats:
       - oas3
-    severity: error
+    severity: warn
     given: >-
       $.paths.[*].responses[?(@property && @property.match(/^(4|5|default)/) && !@["x-noqa"] )].content.*~
     then:

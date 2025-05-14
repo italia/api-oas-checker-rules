@@ -3,11 +3,11 @@ rules:
     description: |-
       Servers must have a description.
     message: >-
-      Server {{path}} must have a description.
+      Server {{path}} SHOULD have a description.
     given:
     - $.servers[*]
     - $.paths..servers
-    severity: error
+    severity: warn
     recommended: true
     then:
       field: description
@@ -15,7 +15,7 @@ rules:
 
   servers-use-https:
     description: |-
-      Servers must use https to ensure the origin of the responses
+      Servers SHOULD use https to ensure the origin of the responses
       and protect the integrity and the  confidentiality of the communication.
 
       You can use `http://` only on sandboxes environment.
@@ -26,7 +26,7 @@ rules:
     given:
     -  $.servers[?(@["x-sandbox"] != true)]
     -  $.paths..servers[?(@["x-sandbox"] != true)]
-    severity: error
+    severity: warn
     recommended: true
     then:
       field: url

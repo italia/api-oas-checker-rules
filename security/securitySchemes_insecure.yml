@@ -25,7 +25,7 @@ rules:
       ApiKey stored in cookie or passed in URL: {{error}}.
     formats:
     - oas3
-    severity: error
+    severity: warn
     recommended: true
     given:
     - >-
@@ -50,7 +50,7 @@ rules:
     formats:
     - oas3
     recommended: true
-    severity: error
+    severity: warn
     given:
     -  >-
         $..[securitySchemes][?(@.type=="http")].scheme

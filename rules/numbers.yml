@@ -4,17 +4,17 @@
 rules:
   number-format: &number-format
     description: |-
-      Schema of type number or integer must specify a format
+      Schema of type number or integer SHOULD specify a format
       to express the associated datatype, eg. `int32`, `int64`, ...
 
       You can express similar requirements using the `minimum` and `maximum` properties.
 
       See recommendation RAC_REST_FORMAT_004.
     message: >-
-      [RAC_REST_FORMAT_004] Schema of type number or integer must specify a format. {{path}}
+      [RAC_REST_FORMAT_004] Schema of type number or integer SHOULD specify a format. {{path}}
     formats:
     - oas3
-    severity: error
+    severity: warn
     recommended: true
     given: >-
       $..[?(@ && @.type=="number")]
