@@ -7,7 +7,7 @@ rules:
     given:
     - $.servers[*]
     - $.paths..servers
-    severity: warn
+    severity: error
     recommended: true
     then:
       field: description
@@ -26,7 +26,7 @@ rules:
     given:
     -  $.servers[?(@["x-sandbox"] != true)]
     -  $.paths..servers[?(@["x-sandbox"] != true)]
-    severity: warn
+    severity: error
     recommended: true
     then:
       field: url

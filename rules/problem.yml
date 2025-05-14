@@ -27,7 +27,7 @@ rules:
       [RFC7807] Error responses should support RFC7807 in {{path}}.
     formats:
       - oas3
-    severity: warn
+    severity: error
     given: >-
       $.paths.[*].responses[?(@property && @property.match(/^(4|5|default)/) && !@["x-noqa"] )].content.*~
     then:

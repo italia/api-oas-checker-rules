@@ -61,7 +61,7 @@ rules:
 
     message: >-
       The following unsafe operation is not protected by a `security` rule: {{path}}
-    severity: warn
+    severity: error
     given: "$"
     then:
     - function: "checkSecurity"
