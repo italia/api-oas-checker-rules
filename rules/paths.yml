@@ -1,17 +1,17 @@
 rules:
   paths-status:
     description: |-
-      You must define a `/status` path that can be used to health-check the API.
+      You SHOULD define a `/status` path that can be used to health-check the API.
       Using this path avoids the arbitrary usage of a server URL for health-check
       scope.
 
-      The `/status` endpoint should return a `application/problem+json` response
+      The `/status` endpoint SHOULD return a `application/problem+json` response
       containing a successful status code if the service is working correctly.
 
       The service provider is free to define the implementation logic for this path.
     message: >-
-      The "/status" path used to health-check the API must be defined. {{error}}
-    severity: error
+      The "/status" path used to health-check the API SHOULD be defined. {{error}}
+    severity: warn
     recommended: true
     given: $.paths
     then:
@@ -30,10 +30,10 @@ rules:
 
   paths-status-return-problem:
     description: |-
-      "/status" must return a Problem object.
+      "/status" SHOULD return a Problem object.
     message: |-
       {{error}}
-    severity: error
+    severity: warn
     recommended: true
     given: >-
       $.paths.'/status'.get.responses.200.content.*~

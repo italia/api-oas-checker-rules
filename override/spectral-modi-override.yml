@@ -25,26 +25,26 @@ rules:
 
   override:
     http-request-GET-no-body:
-      severity: error
+      severity: warn
     http-response-no-content-204-205:
-      severity: error
+      severity: warn
     integer-format:
-      severity: error
+      severity: warn
     no-swagger-2:
-      severity: error
+      severity: warn
     number-format:
-      severity: error
+      severity: warn
     paths-kebab-case:
       severity: warn
     paths-status:
-      severity: error
+      severity: warn
     paths-status-return-problem:
-      severity: error
+      severity: warn
     sec-apikeys-url:
-      severity: error
+      severity: warn
     sec-credentials-parameters:
-      severity: error
+      severity: warn
     servers-use-https:
-      severity: error
+      severity: warn
     use-problem-json-for-errors:
-      severity: error
+      severity: warn
