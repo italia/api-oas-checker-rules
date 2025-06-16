@@ -38,7 +38,7 @@ La build delle regole avviene in un container Docker. Dal `Makefile` incluso nel
 - `-v "$(CURDIR)":/app`: Monta la directory corrente nel container sotto `/app`.
 - `-w /app`: Imposta la directory di lavoro del container su `/app`.
 - `-e RULES_FOLDERS=rules/`: Imposta la variabile d'ambiente `RULES_FOLDERS` per indicare la cartella (o le cartelle, separate da virgole) delle regole.
-- `-e RULESET_NAME="Italian Guidelines Extended"`: Imposta la variabile d'ambiente `RULESET_NAME` con il nome che si vuole dare al set di regole; opzionale.
+- `-e RULESET_NAME="Italian Guidelines Full"`: Imposta la variabile d'ambiente `RULESET_NAME` con il nome che si vuole dare al set di regole; opzionale.
 - `-e RULESET_VERSION=1.0`: Imposta la variabile d'ambiente `RULESET_VERSION` con la versione del set di regole; opzionale.
 - `-e RULESET_FILE_NAME=$(RULESET_DIR)/$@`: Imposta la variabile d'ambiente `RULESET_FILE_NAME` con il percorso della cartella dove finirà il file in output.
 - `-e TEMPLATE_FILE=rules/rules-template.yml.template`: Imposta la variabile d'ambiente `TEMPLATE_FILE` con il percorso del template delle regole; opzionale.
