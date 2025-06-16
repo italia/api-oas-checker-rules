@@ -31,7 +31,7 @@ spectral.yml: $(wildcard ./rules/*.yml)
 		-v "$(CURDIR)":/app\
 		-w /app\
 		-e RULES_FOLDERS=rules/\
-		-e RULESET_NAME="Italian Guidelines Extended"\
+		-e RULESET_NAME="Italian Guidelines Full"\
 		-e RULESET_VERSION=${RULESET_VERSION}\
 		-e RULESET_FILE_NAME=$(RULESET_DIR)/$@\
 		-e TEMPLATE_FILE=rules/rules-template.yml.template\
@@ -72,7 +72,7 @@ spectral-full.yml: spectral.yml spectral-security.yml
 		-v "$(CURDIR)":/app\
 		-w /app\
 		-e RULES_FOLDERS=rules/,security/\
-		-e RULESET_NAME="Italian Guidelines Extended + Extra Security Checks"\
+		-e RULESET_NAME="Italian Guidelines Full + Extra Security Checks"\
 		-e RULESET_VERSION=${RULESET_VERSION}\
 		-e RULESET_FILE_NAME=$(RULESET_DIR)/$@\
 		-e TEMPLATE_FILE=rules/rules-template.yml.template\
