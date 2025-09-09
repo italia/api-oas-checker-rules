@@ -1,0 +1,83 @@
+rules:
+  skip:
+    - has-termsOfService
+    - has-x-api-id
+    - has-x-summary
+    - hint-problem-schema
+    - missing-ratelimit
+    - missing-retry-after
+    - patch-json-patch-mediatype
+    - sec-apikeys-cookie
+    - sec-apikeys-url
+    - sec-auth-insecure-schemes
+    - sec-credentials-parameters
+    - sec-protection-global-safe
+    - sec-protection-global-unsafe
+    - sec-protection-global-unsafe-strict
+    - sec-securitySchemes-oauth
+    - sec-securitySchemes-oauth-allowed-flows
+    - sec-securitySchemes-oauth-http
+    - servers-description
+    - servers-use-https
+    - use-problem-schema
+    - use-recommended-names-in-parameters
+    - use-recommended-names-in-schemas
+    - use-semver
+
+  override:
+    cache-responses-undocumented:
+      severity: warn
+    servers-description:
+      severity: hint
+    http-request-DELETE-no-body:
+      severity: error
+    paths-http-method:
+      severity: hint
+    response-with-json-object:
+      severity: hint
+    sec-protection-global-safe:
+      severity: error
+    paths-kebab-case:
+      severity: hint
+    schema-camel-case:
+      severity: hint
+    sec-securitySchemes-jwt:
+      severity: info
+    sec-no-default-additionalProperties:
+      severity: hint
+    sec-no-additionalProperties:
+      severity: hint
+    sec-constrained-additionalProperties:
+      severity: hint
+    sec-array-boundaries:
+      severity: hint
+    sec-number-boundaries:
+      severity: hint
+    sec-string-maxlength:
+      severity: hint
+    sec-string-pattern-or-format-or-enum:
+      severity: hint
+    integer-format:
+      severity: hint
+    paths-status-problem-schema:
+      severity: warn
+    paths-status:
+      severity: warn
+    paths-status-return-problem:
+      severity: warn
+    use-problem-json-for-errors:
+      severity: warn
+    has-contact:
+      severity: info
+    http-response-content-2xx:
+      severity: warn
+    number-format:
+      severity: hint
+    cache-responses-indeterminate-behavior:
+      severity: warn
+    problem-json-required-for-errors:
+      severity: warn
+    use-simple-semver:
+      severity: warn
+    http-response-no-content-204-205:
+      severity: warn
