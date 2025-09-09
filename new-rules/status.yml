@@ -1,0 +1,51 @@
+rules:
+  status-get-no-auth:
+    description: >-
+      The status endpoint SHOULD remain publicly accessible for monitoring.
+      When global security is defined, the GET operation on `/status` MUST
+      explicitly override it with `security: []` to ensure public access.
+      When no global security exists, the security property should be absent.
+      This allows health checks and monitoring systems to access the endpoint
+      without credentials, following standard practices for status endpoints.
+    message: >-
+      The GET operation {{path}} must explicitly define `security: []` when global security exists, or have no security property when global security is absent.
+    severity: warn
+    recommended: true
+    given: "$"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          oneOf:
+            # Case 1: No global security - operation should not have security property
+            - allOf:
+                - not:
+                    required: [security]
+                - properties:
+                    paths:
+                      type: object
+                      properties:
+                        "/status":
+                          type: object
+                          properties:
+                            get:
+                              type: object
+                              not:
+                                required: [security]
+            # Case 2: Global security exists - operation must override with empty array
+            - allOf:
+                - required: [security]
+                - properties:
+                    paths:
+                      type: object
+                      properties:
+                        "/status":
+                          type: object
+                          properties:
+                            get:
+                              type: object
+                              required: [security]
+                              properties:
+                                security:
+                                  type: array
+                                  maxItems: 0

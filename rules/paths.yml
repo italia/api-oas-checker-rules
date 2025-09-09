@@ -1,67 +1,7 @@
 rules:
-  paths-status:
-    description: |-
-      You must define a `/status` path that can be used to health-check the API.
-      Using this path avoids the arbitrary usage of a server URL for health-check
-      scope.
-
-      The `/status` endpoint should return a `application/problem+json` response
-      containing a successful status code if the service is working correctly.
-
-      The service provider is free to define the implementation logic for this path.
-    message: >-
-      The "/status" path used to health-check the API must be defined. {{error}}
-    severity: error
-    recommended: true
-    given: $.paths
-    then:
-      function: schema
-      functionOptions:
-        schema:
-          oneOf:
-          - type: object
-            required:
-            - "/status"
-            properties:
-              "/status":
-                type: object
-          - type: object
-            additionalProperties: false
-
-  paths-status-return-problem:
-    description: |-
-      "/status" must return a Problem object.
-    message: |-
-      {{error}}
-    severity: error
-    recommended: true
-    given: >-
-      $.paths.'/status'.get.responses.200.content.*~
-    then:
-      function: enumeration
-      functionOptions:
-        values:
-        - application/problem+xml
-        - application/problem+json
-  paths-status-problem-schema:
-    description: |-
-      "/status" schema is not a Problem object.
-    message: |-
-      {{error}} {{path}}
-    severity: warn
-    recommended: true
-    given: >-
-      $.paths.'/status'.get.responses.200.content.[schema]
-    then:
-    - function: truthy
-      field: 'properties.status'
-    - function: truthy
-      field: 'properties.title'
-    - function: truthy
-      field: 'properties.detail'
   paths-http-method:
     description: |-
-      When you design a REST API, you don't usually need to mention terms like
+      When you design a REST API, you don't have to mention terms like
       `get`, `delete` and so on in your `paths`, because this information is
       conveyed by the HTTP method.
 
@@ -72,14 +12,14 @@ rules:
       Host: api.example
       ```
 
-      You can simply call
+      You have to simply call
 
       ```
       DELETE /books/1234 HTTP/1.1
       Host: api.example
       ```
 
-      Similarly you don't need verbs like `list` or `create` because
+      Similarly you don't have to use verbs like `list` or `create` because
       the HTTP Semantics RFC7231 supports this kind of actions natively
       with proper methods and status code.
 
@@ -93,7 +33,7 @@ rules:
       {"given_name": "Mario"}
       ```
 
-      You can use
+      You have to use
       ```
       POST /create/user HTTP/1.1
       Host: api.example
@@ -129,4 +69,3 @@ rules:
     then:
       field: "@key"
       function: undefined
-
