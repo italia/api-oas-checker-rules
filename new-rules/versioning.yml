@@ -1,0 +1,31 @@
+rules:
+  use-simple-semver:
+    description: >
+      API versions MUST follow simplified semantic versioning format.
+      The `info.version` MUST follow the pattern `<major>`, `<major>.<minor>`, 
+      or `<major>.<minor>.<patch>`, where each segment is a non-negative integer.
+      This ensures consistent version numbering across APIs and improves version 
+      management predictability. Valid examples: `1`, `2.3`, `4.5.6`.
+    message: 'Version "{{value}}" is not valid. Use N, N.N, or N.N.N where N is an integer.'
+    severity: warn
+    recommended: true
+    type: style
+    formats:
+      - oas3
+    given: $.info.version
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[0-9]+(\.[0-9]+){0,2}$'
+
+  deprecated-operations-warning:
+    description: "Deprecated operations SHOULD include sunset/removal information in their description to help developers plan migrations. Clear deprecation timelines improve API lifecycle management."
+    message: "Deprecated operation {{path}} should mention sunset date or removal timeline"
+    severity: info
+    recommended: true
+    given: $..paths..[?(@.deprecated == true)]
+    then:
+      field: description
+      function: pattern
+      functionOptions:
+        match: ".*(sunset|deprecat|remov|end.of.life|EOL|discontinu).*"

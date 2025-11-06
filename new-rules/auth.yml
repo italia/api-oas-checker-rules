@@ -1,0 +1,61 @@
+functions:
+- checkSecurityExcludePaths
+rules:
+  sec-bearer-auth-incomplete:
+    description: "Security schemes should specify type, scheme, and bearerFormat properties for complete authentication configuration."
+    message: 'Security scheme should specify type, scheme, and bearerFormat properties.'
+    severity: warn
+    formats:
+      - oas3
+    given: $.components.securitySchemes[*]
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required: [ type, scheme, bearerFormat ]
+  sec-bearer-auth-strict:
+    description: "Security schemes with type, scheme, and bearerFormat specified MUST use HTTP Bearer authentication with JWT format exclusively. All security schemes MUST use the 'http' type with 'bearer' scheme and 'JWT' bearer format to ensure consistent and secure authentication patterns across the API."
+    message: 'Only `http` type with `scheme: bearer` (case insensitive "bearer" or "Bearer") and `bearerFormat: JWT` is allowed when these properties are specified.'
+    severity: error
+    formats:
+      - oas3
+    given: $.components.securitySchemes[?(@.type && @.scheme && @.bearerFormat)]
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            type:
+              const: http
+            scheme:
+              enum: ["bearer", "Bearer"]
+            bearerFormat:
+              const: JWT
+          additionalProperties: true
+  sec-protection-all-methods:
+    description: >
+      All API operations (both safe and unsafe methods) MUST be protected by authentication.
+      Operations MUST define security requirements either at the operation level or inherit 
+      from global security settings. Public endpoints MUST be explicitly marked 
+      with an empty `security: []` array to indicate intentional public access.
+      The `/status` endpoint is excluded as it is typically public for health checks.
+    message: The operation {{path}} is not protected by a `security` rule.
+    severity: error
+    given: $
+    then:
+      - function: checkSecurityExcludePaths
+        functionOptions:
+          schemesPath:
+            - securitySchemes
+          nullable: false
+          excludePaths:
+            - "/status"
+          methods:
+            - get
+            - head
+            - post
+            - put
+            - patch
+            - delete

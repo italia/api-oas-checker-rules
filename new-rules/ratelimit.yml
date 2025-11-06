@@ -1,0 +1,114 @@
+rules:
+  ratelimit-headers-recommended:
+    description: |-
+      Rate limiting headers SHOULD be provided in successful responses (2xx) 
+      to help clients understand their usage quotas and avoid being throttled.
+      
+      Recommended headers include either legacy X-RateLimit-* format or 
+      standardized RateLimit-* format as per IETF draft specification.
+      
+      Rate limiting improves API reliability and helps prevent abuse scenarios.
+    message: "Response {{path}} should include rate limiting headers for better client guidance"
+    formats: [oas3]
+    severity: hint
+    recommended: true
+    
+    given: $..[responses][?(@property[0] == "2")][headers]
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - anyOf:  # Legacy X-RateLimit format
+              - required: ["X-RateLimit-Limit"]
+              - required: ["X-RateLimit-Remaining"] 
+              - required: ["X-RateLimit-Reset"]
+            - anyOf:  # Standard RateLimit format
+              - required: ["RateLimit-Limit"]
+              - required: ["RateLimit-Remaining"]
+              - required: ["RateLimit-Reset"]
+
+  ratelimit-headers-compliant:
+    description: |-
+      When rate limiting headers are present, they MUST follow either the legacy 
+      X-RateLimit-* format or the standardized RateLimit-* format consistently.
+      
+      Mixed formats or partial implementations create confusion for clients 
+      and reduce interoperability. Choose one format and implement it completely.
+    message: "Rate limiting headers at {{path}} must be implemented consistently"
+    formats: [oas3]
+    severity: error
+    recommended: true
+    
+    given: $..[responses][?(@property[0] == "2")][headers][?(@["X-RateLimit-Limit"] || @["X-RateLimit-Remaining"] || @["X-RateLimit-Reset"] || @["RateLimit-Limit"] || @["RateLimit-Remaining"] || @["RateLimit-Reset"])]
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          oneOf:
+            - allOf:  # Complete X-RateLimit implementation
+              - required: ["X-RateLimit-Limit"]
+              - required: ["X-RateLimit-Remaining"] 
+              - required: ["X-RateLimit-Reset"]
+              - not:
+                  anyOf:
+                    - required: ["RateLimit-Limit"]
+                    - required: ["RateLimit-Remaining"]
+                    - required: ["RateLimit-Reset"]
+            - allOf:  # Complete RateLimit implementation  
+              - required: ["RateLimit-Limit"]
+              - required: ["RateLimit-Remaining"]
+              - required: ["RateLimit-Reset"]
+              - not:
+                  anyOf:
+                    - required: ["X-RateLimit-Limit"]
+                    - required: ["X-RateLimit-Remaining"]
+                    - required: ["X-RateLimit-Reset"]
+
+  retry-after-recommended:
+    description: |-
+      Responses with status codes 429 (Too Many Requests) and 503 (Service 
+      Unavailable) SHOULD include a Retry-After header to indicate when 
+      clients can retry their requests.
+      
+      This helps clients implement proper backoff strategies and reduces 
+      server load during high-traffic or maintenance periods.
+    message: "{{property}} response should include Retry-After header for client guidance"
+    formats: [oas3] 
+    severity: hint
+    recommended: true
+    
+    given: $..[responses][?(@property == "429" || @property == "503")][headers]
+    then:
+      field: Retry-After
+      function: truthy
+
+  retry-after-compliant:
+    description: |-
+      When Retry-After header is present, it MUST conform to RFC 7231 
+      specification. The header value must be either:
+      - A delay in seconds (integer)
+      - An HTTP-date indicating when to retry
+      
+      Proper Retry-After implementation enables predictable client behavior 
+      and efficient request retry patterns.
+    message: "Retry-After header at {{path}} must specify proper schema (integer seconds or HTTP-date)"
+    formats: [oas3]
+    severity: error
+    recommended: true
+    
+    given: $..[responses][?(@property == "429" || @property == "503")][headers][?(@["Retry-After"])]
+    then:
+      field: Retry-After.schema
+      function: schema
+      functionOptions:
+        schema:
+          oneOf:
+            - type: integer
+              minimum: 0
+              description: "Delay in seconds"
+            - type: string
+              format: date-time
+              description: "HTTP-date format"

@@ -1,0 +1,114 @@
+rules:
+  problem-schema-must-be-defined:
+    description: |-
+      Error responses using RFC 9457 media types (`application/problem+json` or 
+      `application/problem+xml`) MUST define a schema. Missing schema definitions 
+      prevent proper validation and documentation of error response structure.
+      
+      This ensures that Problem responses are properly documented even if not 
+      yet fully RFC 9457 compliant.
+    message: "[RFC9457] Problem media type at {{path}} is missing schema definition"
+    formats: [oas3]
+    severity: warn
+    recommended: true
+
+    given: >-
+      $.paths[*][*].responses[?(@property.match(/^(4|5|default)$/) && !@["x-noqa"])]
+        .content[?(@property.match(/application\/problem\+json|application\/problem\+xml/) && !@.schema)]
+
+    then:
+      function: falsy
+
+  problem-schema-must-be-compliant:
+    description: |-
+      Error responses using RFC 9457 media types (`application/problem+json` or 
+      `application/problem+xml`) with defined schemas MUST conform to the PDND 
+      Problem profile specification (RAC_REST_NAME_008).
+
+      Error responses MUST include standardized properties:
+      - REQUIRED properties: `type`, `title`, `status`, `detail`
+      - OPTIONAL properties: `instance`
+      - Custom extension fields are allowed
+
+      The rule automatically resolves `$ref` references, allowing schemas 
+      to be defined in `components.schemas` for reusability.
+
+    message: "[RFC9457] Non-compliant Problem schema detected at {{path}}"
+    formats: [oas3]
+    severity: error
+    recommended: true
+
+    given: >-
+      $.paths[*][*].responses[?(@property.match(/^(4|5|default)$/) && !@["x-noqa"])]
+        .content[?(@property.match(/application\/problem\+json|application\/problem\+xml/))]
+        .schema
+
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required: [type, title, status, detail]
+          properties:
+            type:
+              type: string
+              format: uri
+            title:
+              type: string
+            status:
+              type: integer
+              minimum: 100
+              maximum: 599
+            detail:
+              type: string
+            instance:
+              type: string
+              format: uri
+          additionalProperties: true  # custom extensions allowed
+
+  problem-json-required-for-errors:
+    description: |-
+      All error responses (4xx, 5xx, default) MUST expose at least the RFC 9457 
+      `application/problem+json` media type as specified in RAC_REST_NAME_008 §4.2.8. 
+      While `application/problem+xml` is also valid per RFC 9457, JSON is preferred 
+      for modern APIs to promote consistent error handling and improve client-side 
+      error processing capabilities.
+    message: 'Response {{property}} is missing media-type application/problem+json'
+    formats: [oas3]
+    severity: error
+    recommended: true
+
+    given: $.paths[*][*].responses[?(@property.match(/^(4|5|default)$/))]
+    then:
+      field: content.application/problem+json
+      function: truthy
+
+  should-have-415-for-unsupported:
+    description: |
+      Recommends documenting HTTP 415 responses for operations with request bodies.
+      This rule suggests that operations accepting request bodies should explicitly 
+      document HTTP 415 (Unsupported Media Type) responses to handle cases where 
+      clients send content with invalid or unsupported Content-Type headers, 
+      improving API documentation completeness and client error handling.
+    message: 'Operation at {{path}} lacks response 415'
+    severity: hint
+    formats: [oas3]
+    given: $.paths[*][*][?(@.requestBody)]
+    then:
+      field: responses.415
+      function: truthy
+
+  should-have-422-for-unprocessable:
+    description: |
+      Recommends documenting HTTP 422 responses for semantic validation errors.
+      This rule suggests that operations with request bodies should document 
+      HTTP 422 (Unprocessable Entity) responses to handle semantic validation 
+      failures, as recommended by RAC_REST_NAME_008. This ensures proper 
+      distinction between syntactic (400) and semantic (422) validation errors.
+    message: 'Operation at {{path}} lacks response 422'
+    severity: hint
+    formats: [oas3]
+    given: $.paths[*][*][?(@.requestBody)]
+    then:
+      field: responses.422
+      function: truthy

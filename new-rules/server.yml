@@ -1,0 +1,38 @@
+rules:
+  servers-must-specify-protocol:
+    description: "Server URLs MUST explicitly specify a protocol (https). Missing protocol specification can lead to ambiguous endpoint definitions and connection issues."
+    severity: warn
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "^(?!https?://)"
+  
+  servers-must-use-https:
+    description: "All server URLs MUST use HTTPS protocol to ensure secure communication. Server endpoints MUST use encrypted connections, protecting data in transit and meeting modern security standards for API communications."
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: "^https://"
+
+  servers-description-required:
+    description: "When multiple servers are defined, each server MUST have a description to help distinguish between different environments or purposes. Single server configurations do not require descriptions as the purpose is typically clear from context."
+    message: "Server {{path}} must have a description when multiple servers are defined."
+    severity: error
+    recommended: true
+    given: $.servers[1:]
+    then:
+      field: description
+      function: truthy
+
+  single-server-description-optional:
+    description: "For single server configurations, a description is optional but recommended for clarity. While not mandatory, providing a description can help users understand the server's purpose or environment."
+    message: "Server {{path}} could benefit from a description for better documentation."
+    severity: info
+    recommended: true
+    given: $[?(@.servers.length == 1)].servers[0]
+    then:
+      field: description
+      function: truthy

@@ -1,0 +1,10 @@
+rules:
+  examples-required:
+    description: "Request/response examples SHOULD be provided to improve API usability and developer experience. Examples help developers understand expected data formats and facilitate API testing and integration."
+    message: "{{path}} should include example for better documentation"
+    severity: hint
+    recommended: true
+    given: $.paths..[requestBody,responses.200].content.*
+    then:
+      field: example
+      function: truthy

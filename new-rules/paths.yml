@@ -1,0 +1,11 @@
+rules:
+  agid-path-structure:
+    description: "AGID API paths SHOULD follow the structure: /{rest|soap}/{DominioApplicativo}/v{major}[.{minor}[.{patch}]]/{NomeAPI}. This ensures consistent URL patterns across Italian public administration APIs, improving discoverability and standardization."
+    message: "Path {{path}} does not follow AGID structure: /{rest|soap}/{domain}/v{version}/{api-name}"
+    severity: hint
+    recommended: true
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[^:]+://[^/]+/(rest|soap)/[^/]+/v[0-9]+(\\.[0-9]+){0,2}/[^/]+.*$'
