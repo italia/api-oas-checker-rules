@@ -27,7 +27,7 @@ Affinché un'interfaccia OpenAPI sia compliant con le prescrizioni del _Modello 
 Per eseguire la verifica, è sufficiente:
 1. Aprire un file di specifica OpenAPI in un editor di testo
 2. Copiare e incollare il contenuto all'interno del riquadro del sito.
-3. Selezionare il set di regole _Italian Guidelines_ se non già selezionato.
+3. Selezionare il set di regole _Italian Guidelines Full_ se non già selezionato.
 2. Cliccare su **Check**.
 
 ![Italian OpenAPI Checker](resources/img/website1.png)
@@ -60,7 +60,7 @@ Spectral, lo strumento alla base del sito web, è disponibile anche come estensi
 
 Dalle impostazioni dell’estensione nell’IDE, è necessario configurare il file delle regole. Si può scegliere tra due opzioni:
 1. Avere il file delle regole localmente sul proprio computer e inserire il relativo percorso.
-2. Inserire l’URL remoto (es. GitHub) al file delle regole, come quello delle _Italian Guidelines_ [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml).
+2. Inserire l’URL remoto (es. GitHub) al file delle regole, come quello delle _Italian Guidelines Full_ [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml).
 
 Per gli altri file delle regole, è possibile far riferimento al [repository ufficiale](https://github.com/italia/api-oas-checker-rules/releases).
 
@@ -100,7 +100,7 @@ spectral lint percorso_file_openapi\
 
 - `percorso_file_openapi`: il percorso al file contenente l’interfaccia OpenAPI da verificare;
 - `percorso_file_output`: il percorso al file JSON di output che conterrà tutti gli errori individuati;
-- `percorso_file_regole`: il percorso al file delle regole per la verifica, anche remoto (come appunto le Italian Guidelines, [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml)).
+- `percorso_file_regole`: il percorso al file delle regole per la verifica, anche remoto (come appunto le _Italian Guidelines Full_, [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml)).
 
 #### Tip
 
