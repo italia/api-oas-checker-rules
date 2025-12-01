@@ -6,7 +6,7 @@ rules:
       Server {{path}} must have a description.
     given:
     - $.servers[*]
-    - $.paths..servers
+    - $.paths..servers[*]
     severity: error
     recommended: true
     then:
