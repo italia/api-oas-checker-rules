@@ -1,0 +1,50 @@
+rules:
+  boolean-not-null:
+    description: "Boolean properties SHOULD NOT accept null values. Boolean properties MUST maintain their intended data type without null contamination to ensure type consistency, API reliability and client-side type safety."
+    severity: warn
+    given: "$..[?(@.type == 'boolean')]"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            nullable:
+              const: false
+          not:
+            properties:
+              nullable:
+                const: true
+
+  array-not-null:
+    description: "Array properties SHOULD NOT accept null values. Arrays MUST be non-nullable to maintain data structure integrity, ensure consistent collection handling and prevent null reference exceptions in client applications."
+    severity: warn
+    given: "$..[?(@.type == 'array')]"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            nullable:
+              const: false
+          not:
+            properties:
+              nullable:
+                const: true
+
+  enum-no-null:
+    description: "Enumeration definitions SHOULD NOT include null values to ensure enum integrity. Enumerations MUST maintain their semantic purpose by preventing null as a valid option, forcing explicit handling of undefined states through proper API design."
+    severity: warn
+    given: "$..[?(@.enum)]"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            enum:
+              type: array
+              not:
+                contains:
+                  const: null

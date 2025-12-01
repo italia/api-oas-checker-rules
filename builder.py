@@ -96,14 +96,16 @@ def merge_yaml_files(file_paths: list, configuration: dict) -> dict:
                 continue
 
             merged_data = merge_dicts(merged_data, file_yaml)
-    
-    # Remove unnecessary keys
-    if "skip" in configuration:
-        remove_unnecessary_keys(merged_data["rules"], configuration["skip"])
 
     # Apply overrides to fields
     if "override" in configuration:
         apply_patch(merged_data["rules"], configuration["override"])
+
+    # Remove unnecessary keys
+    if "skip" in configuration:
+        remove_unnecessary_keys(merged_data["rules"], configuration["skip"])
+
+    print("Numero di regole trovate:", len(merged_data.get("rules", [])))
     
     return merged_data
 

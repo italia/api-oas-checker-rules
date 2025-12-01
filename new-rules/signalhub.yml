@@ -1,0 +1,57 @@
+rules:
+  pseudonymization-contract-required:
+    description: >
+      The `/pseudonymization` endpoint MUST exist as a GET operation
+      returning a 200 response with JSON content containing `seed` and 
+      `cryptoHashFunction` properties.
+    message: '`/pseudonymization` endpoint must be a GET operation returning 200 with seed and cryptoHashFunction properties.'
+    severity: error
+    formats: [oas3]
+
+    given: $.paths['/pseudonymization']
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required: [get]
+          properties:
+            get:
+              type: object
+              required: [responses]
+              properties:
+                responses:
+                  type: object
+                  required: ["200"]
+                  properties:
+                    "200":
+                      type: object
+                      required: [content]
+                      properties:
+                        content:
+                          type: object
+                          required: [application/json]
+                          properties:
+                            application/json:
+                              type: object
+                              required: [schema]
+                              properties:
+                                schema:
+                                  type: object
+                                  required: [properties]
+                                  properties:
+                                    properties:
+                                      type: object
+                                      required: [seed, cryptoHashFunction]
+
+  pseudonymization-contract-delta:
+    description: >
+      The `/pseudonymization` endpoint SHOULD include the signalId parameter.
+      Issues a warning when the `/pseudonymization` endpoint lacks the 
+      optional `signalId` query parameter, which may be required for 
+      enhanced functionality or future contract evolution.
+    severity: warn
+    formats: [oas3]
+    given: $.paths['/pseudonymization'].get.parameters[?(@.name == 'signalId')]
+    then:
+      function: truthy
