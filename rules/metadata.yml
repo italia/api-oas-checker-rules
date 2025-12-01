@@ -22,13 +22,13 @@ rules:
 
   has-termsOfService:
     message: >-
-      API MUST reference the URL of the Terms of Service
+      API SHOULD reference the URL of the Terms of Service
       in #/info/termsOfService.
     description: >-
-      API MUST reference the URL of the Terms of Service
+      API SHOULD reference the URL of the Terms of Service
       in `#/info/termsOfService`
     given: $
-    severity: error
+    severity: warn
     recommended: true
     type: style
     formats:
