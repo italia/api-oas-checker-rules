@@ -48,7 +48,7 @@ rules:
       functionOptions:
         schema:
           type: object
-          required: [type, title, status, detail]
+          required: [type, title, status]
           properties:
             type:
               type: string
