@@ -26,8 +26,8 @@ rules:
       Problem profile specification (RAC_REST_NAME_008).
 
       Error responses MUST include standardized properties:
-      - REQUIRED properties: `type`, `title`, `status`, `detail`
-      - OPTIONAL properties: `instance`
+      - REQUIRED properties: `type`, `title`, `status`
+      - OPTIONAL properties: `detail`, `instance`
       - Custom extension fields are allowed
 
       The rule automatically resolves `$ref` references, allowing schemas 
