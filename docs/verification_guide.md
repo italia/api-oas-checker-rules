@@ -9,7 +9,7 @@ For more information on the model, you can download the document [here](https://
 ## Verification Methods
 
 ## Premise
-To ensure an OpenAPI interface is compliant with the requirements of the _Model for Technical Interoperability for the PA_, the verification must return zero errors after checking with the rules [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml), also known as **Italian Guidelines**.
+To ensure an OpenAPI interface is compliant with the requirements of the _Model for Technical Interoperability for the PA_, the verification must return zero errors after checking with the rules [spectral.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral.yml), also known as **Italian Guidelines Full**.
 
 ## Index of Verification Methods
 
@@ -27,7 +27,7 @@ To ensure an OpenAPI interface is compliant with the requirements of the _Model 
 To perform the verification, simply:
 1. Open an OpenAPI specification file in a text editor
 2. Copy and paste the content into the site's box.
-3. Select the _Italian Guidelines_ ruleset if not already selected.
+3. Select the _Italian Guidelines Full_ ruleset if not already selected.
 4. Click on **Check**.
 
 ![Italian OpenAPI Checker](resources/img/website1.png)
@@ -60,7 +60,7 @@ The extension can be downloaded from the integrated store in your IDE, such as V
 
 From the extension settings in the IDE, you need to configure the rules file. You can choose between two options:
 1. Have the rules file locally on your computer and enter the respective path.
-2. Enter the remote URL (e.g., GitHub) for the rules file, such as the _Italian Guidelines_ [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml).
+2. Enter the remote URL (e.g., GitHub) for the rules file, such as the _Italian Guidelines Full_ [spectral.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral.yml).
 
 For other rules files, refer to the [official repository](https://github.com/italia/api-oas-checker-rules/releases).
 
@@ -100,7 +100,7 @@ spectral lint file_path_openapi\
 
 - `file_path_openapi`: the path to the file containing the OpenAPI interface to be verified;
 - `file_path_output`: the path to the JSON output file that will contain all identified errors;
-- `file_path_rules`: the path to the rules file for verification, also remote (such as the Italian Guidelines, [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml)).
+- `file_path_rules`: the path to the rules file for verification, also remote (such as the Italian Guidelines Full, [spectral.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral.yml)).
 
 #### Tip
 
