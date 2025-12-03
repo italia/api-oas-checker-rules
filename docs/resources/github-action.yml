@@ -24,7 +24,7 @@ jobs:
         run: yarn global add @stoplight/spectral-cli
 
       - name: Download the latest Spectral Ruleset of the National Interoperability Model
-        run: wget https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml -O spectral-modi.yml
+        run: wget https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral.yml -O spectral.yml
 
       - name: Run Spectral Lint
         run: |
@@ -32,7 +32,7 @@ jobs:
           for file in openapi/*.{json,yml,yaml}; do
             if [ -f "$file" ]; then
               output_file="spectral-reports/report-$(basename "$file").json"
-              spectral lint "$file" -e utf8 -D -f json -o "$output_file" -r spectral-modi.yml -v || true
+              spectral lint "$file" -e utf8 -D -f json -o "$output_file" -r spectral.yml -v || true
             fi
           done
 

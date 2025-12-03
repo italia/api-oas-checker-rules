@@ -9,7 +9,7 @@ Per maggiori informazioni sul modello, è possibile scaricare il documento [qui]
 ## Metodi di Verifica
 
 ## Premessa
-Affinché un'interfaccia OpenAPI sia compliant con le prescrizioni del _Modello per l'Interoperabilità Tecnica per la PA_, è necessario che la verifica restituisca zero errori in seguito al controllo con le regole [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml), anche note come **Italian Guidelines**.
+Affinché un'interfaccia OpenAPI sia compliant con le prescrizioni del _Modello per l'Interoperabilità Tecnica per la PA_, è necessario che la verifica restituisca zero errori in seguito al controllo con le regole [spectral.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral.yml), anche note come **Italian Guidelines**.
 
 ## Indice dei Metodi di Verifica
 
@@ -60,7 +60,7 @@ Spectral, lo strumento alla base del sito web, è disponibile anche come estensi
 
 Dalle impostazioni dell’estensione nell’IDE, è necessario configurare il file delle regole. Si può scegliere tra due opzioni:
 1. Avere il file delle regole localmente sul proprio computer e inserire il relativo percorso.
-2. Inserire l’URL remoto (es. GitHub) al file delle regole, come quello delle _Italian Guidelines Full_ [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml).
+2. Inserire l’URL remoto (es. GitHub) al file delle regole, come quello delle _Italian Guidelines Full_ [spectral.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral.yml).
 
 Per gli altri file delle regole, è possibile far riferimento al [repository ufficiale](https://github.com/italia/api-oas-checker-rules/releases).
 
@@ -94,13 +94,11 @@ spectral lint percorso_file_openapi\
      -v
 ```
 
-![Comando del tool](resources/img/cli2.png)
-
 #### Parametri del Comando
 
 - `percorso_file_openapi`: il percorso al file contenente l’interfaccia OpenAPI da verificare;
 - `percorso_file_output`: il percorso al file JSON di output che conterrà tutti gli errori individuati;
-- `percorso_file_regole`: il percorso al file delle regole per la verifica, anche remoto (come appunto le _Italian Guidelines Full_, [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml)).
+- `percorso_file_regole`: il percorso al file delle regole per la verifica, anche remoto (come appunto le _Italian Guidelines Full_, [spectral.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral.yml)).
 
 #### Tip
 
