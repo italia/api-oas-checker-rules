@@ -16,12 +16,19 @@ paths:
             RateLimit-Remaining: {}
             RateLimit-Reset: {}
         "400":
-          description: no restrictions on error responses
+          description: 4xx must ratelimit
+          headers:
+            RateLimit-Limit: {}
+            RateLimit-Remaining: {}
+            RateLimit-Reset: {}
 
         "429":
-          description: 429 must have retry-after
+          description: 429 must ratelimit (Retry-After optional)
           headers:
             Retry-After: {}
+            RateLimit-Limit: {}
+            RateLimit-Remaining: {}
+            RateLimit-Reset: {}
 
         "503":
           description: 503 must have retry-after
@@ -35,7 +42,7 @@ paths:
           headers:
             Foo: {}
         "429":
-          description: 429 must have retry-after
+          description: 429 must ratelimit (missing headers)
           headers: {}
         "503":
           description: 503 must have retry-after
