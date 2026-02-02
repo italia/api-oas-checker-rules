@@ -29,7 +29,7 @@ rules:
     severity: warn
     recommended: true
     given: >-
-      $..[parameters][?(@.in == "header" && @.name.match(/Cache-Control/i))]
+      $..[parameters][?(@.in == "header" && @.name && @.name.match && @.name.match(/Cache-Control/i))]
     then:
     -  field: description
        function: truthy
@@ -45,7 +45,7 @@ rules:
     message: >-
       [RFC7234] Cache usage in responses SHOULD be documented in Cache-Control and/or Expires. {{error}}
     given: >-
-      $..[responses][?(@property[0] == "2" )][headers].[?(@property.match(/Cache-Control|Expires/i))]
+      $..[responses][?(@property[0] == "2" )][headers].[?(@property && @property.match && @property.match(/Cache-Control|Expires/i))]
 
   cache-responses-indeterminate-behavior:
     <<: *cache-control
