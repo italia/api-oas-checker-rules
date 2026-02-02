@@ -32,7 +32,7 @@ rules:
       - oas3
     severity: info
     given: >-
-      $..parameters.[?(@.name && @.name.match && @.name.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i) )]
+      $..parameters.[?(@ && @.name && @.name.match && @.name.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i) )]
     then:
       field: "name"
       function: pattern
@@ -83,7 +83,7 @@ rules:
       - oas3
     severity: hint
     given: >-
-      $..[?(@.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i) )]
+      $..[?(@ && @.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i) )]
     then:
       field: "operationId"
       function: pattern
