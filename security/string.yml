@@ -38,10 +38,8 @@ rules:
     severity: warn
     recommended: true
     given:
-      - >-
-        $..[?(@.type=="string" && !@.enum
-        && @.format!="date" && @.format !="date-time"
-        )]
+    - >-
+      $..[?(@ && @.type=="string" && !@.enum && !@.format)]
     then:
       - field: maxLength
         function: defined
