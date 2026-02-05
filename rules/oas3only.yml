@@ -12,3 +12,12 @@ rules:
       field: "swagger"
       function: falsy
 
+  oas3-valid-media-example:
+    description: "Ensure examples are valid against their schema."
+    message: "Example value is invalid against the schema. Check for structural issues like 'nullable: true' without an explicit 'type' in the schema definition. Details: {{error}}"
+    severity: error
+    recommended: true
+    given: "$"
+    then:
+      function: truthy
+

@@ -6,8 +6,7 @@ rules:
       before issuing further requests using the Retry-After header.
 
       Retry-After is defined in RFC7231.
-    message: >-
-      [RFC7231] Missing ratelimit header: {{property}} in {{path}}
+    message: "[RFC7231] 503 response is missing the 'Retry-After' header."
     formats:
       - oas3
     severity: warn
@@ -38,8 +37,7 @@ rules:
       A standardization proposal for ratelimit headers is ongoing
       inside the IETF HTTPAPI Workgroup.
       See [the draft](https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/)
-    message: >-
-      Missing ratelimit headers. {{property}} {{error}} {{path}}
+    message: "Missing or ambiguous rate-limit header: '{{property}}' must be defined (standard or X- prefix)."
     formats:
       - oas3
     severity: warn
