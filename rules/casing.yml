@@ -4,13 +4,12 @@ rules:
       Paths should be kebab-case (e.g. `path-parameter`).
 
       See Italian recommendation RAC_REST_NAME_002.
-    message: '[RAC_REST_NAME_002] Path "{{value}}" must be kebab-case (e.g., /my-resource-name).'
+    message: '[RAC_REST_NAME_002] Path "{{property}}" must be kebab-case (e.g., /my-resource-name).'
     severity: warn
     recommended: true
-    given: $.paths[*]~
+    given: $.paths[*]
     then:
-      # BEWARE: don't use `casing` because  this pattern allows
-      #         for non-kebab parameters in the path.
+      field: "@property"
       function: pattern
       functionOptions:
         match: "^(\/[a-z0-9-.]+|\/{[a-zA-Z0-9_]+})+$"
@@ -53,12 +52,13 @@ rules:
           website:
             $ref: "#/components/schemas/Website"
       ``` 
-    message: 'Schema name "{{value}}" should be PascalCase (e.g., MySchema).'
+    message: 'Schema name "{{property}}" should be PascalCase (e.g., MySchema).'
     severity: hint
     recommended: true
     given: >-
-      $.components.schemas[*]~
+      $.components.schemas[*]
     then:
+      field: "@property"
       function: casing
       functionOptions:
         type: pascal

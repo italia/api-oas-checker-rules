@@ -109,19 +109,20 @@ rules:
 
       This simplifies securing your API as you know beforehand the kind of action
       which is going to be performed.
-    message: '[RFC7231] Path "{{value}}" contains an HTTP method or action verb (e.g., get, list, create); use proper HTTP methods instead.'
+    message: '[RFC7231] Path "{{property}}" contains an HTTP method or action verb (e.g., get, list, create); use proper HTTP methods instead.'
     severity: hint
     recommended: true
     given:
       - >-
         $.paths[?(@property && @property.match(
         "/(get|post|put|delete|patch)[\/A-Z_\-]?"
-        ))]~
+        ))]
       - >-
         $.paths[?(@property && @property.match(
         "/(create|remove|list)[\/A-Z_\-]?"
-        ))]~
+        ))]
 
     then:
+      field: "@property"
       function: undefined
 
