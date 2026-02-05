@@ -41,7 +41,7 @@ rules:
   cache-responses-undocumented:
     <<: *cache-control
     severity: info
-    message: "[RFC7234] Cache usage for response header '{{value}}' must be documented in its description."
+    message: "[RFC7234] Cache usage for response header must be documented in its description."
     given: >-
       $..[responses][?(@property[0] == "2" )][headers].[?(@property && @property.match && @property.match(/Cache-Control|Expires/i))]
 
