@@ -133,7 +133,6 @@ rules:
     given: >-
       $..[responses][?(@property && @property.match(/^(4|5|default)/)  && !@["x-noqa"] )][schema][properties].*~
     then:
-      field: "@key"
       function: pattern
       functionOptions:
         notMatch: message|code|msg

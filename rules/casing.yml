@@ -4,7 +4,7 @@ rules:
       Paths should be kebab-case (e.g. `path-parameter`).
 
       See Italian recommendation RAC_REST_NAME_002.
-    message: '[RAC_REST_NAME_002] {{property}} is not kebab-case: {{error}}'
+    message: '[RAC_REST_NAME_002] Path "{{value}}" must be kebab-case (e.g., /my-resource-name).'
     severity: warn
     recommended: true
     given: $.paths[*]~
@@ -17,23 +17,21 @@ rules:
 
   request-headers-pascal-case: &request-headers-pascal-case
     description: |
-      Headers should be pascal-case, separated by hyphens (e.g. `PascalCase-Header`)
+      Headers should be Train-Case / HTTP-Header-Case (e.g. `X-Header-Name`).
 
       See Italian recommendation RAC_REST_NAME_003.
-    message: '[RAC_REST_NAME_003] {{value}} {{error}} in {{path}}'
+    message: '[RAC_REST_NAME_003] Header "{{value}}" must be Train-Case / HTTP-Header-Case.'
     severity: hint
     recommended: true
     given:
     - $..[parameters][?(@ && @.in=="header")].name
     then:
-      function: casing
+      function: pattern
       functionOptions:
-        type: pascal
-        separator:
-          char: '-'
+        match: "^([A-Z][a-zA-Z0-9]*(-[A-Z][a-zA-Z0-9]*)*)$"
   response-headers-pascal-case:
     <<: *request-headers-pascal-case
-    message: '[RAC_REST_NAME_003] Header {{error}}: {{path}}'
+    message: '[RAC_REST_NAME_003] Response header must be Train-Case / HTTP-Header-Case.'
     given:
     - $..[responses][*].headers.*~
 
@@ -55,7 +53,7 @@ rules:
           website:
             $ref: "#/components/schemas/Website"
       ``` 
-    message: 'Schema name should be CamelCase in {{path}}'
+    message: 'Schema name "{{value}}" should be PascalCase (e.g., MySchema).'
     severity: hint
     recommended: true
     given: >-

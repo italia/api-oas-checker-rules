@@ -32,24 +32,27 @@ rules:
       - oas3
     severity: info
     given: >-
-      $..parameters.[?(@ && @.name && @.name.match && @.name.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i) )]
+      $..parameters.[?(@ && @.name && @.name.match && @.name.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i) )].name
     then:
-      field: "name"
       function: pattern
       functionOptions:
         match: //
   use-recommended-names-in-schemas:
-    <<: *use-recommended-names
+    description: |-
+      Use well defined parameter and schema names, deriving them
+      from the national ontologies available at https://w3id.org/italia/onto/
+    message: "Use recommended variable names in '{{value}}'."
+    formats:
+      - oas3
+    severity: info
     given: '$..[?(@ && @.type=="object")].properties.[?(
        @property 
        && @property.match 
        && @property.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i)
       )]'
     then:
-      field: "@key"
-      function: pattern
-      functionOptions:
-        match: //
+      field: "@property"
+      function: undefined
   no-method-name-in-operationId:
     description: |-
       Avoid using method names in `operationId`s because it couples
@@ -83,9 +86,8 @@ rules:
       - oas3
     severity: hint
     given: >-
-      $..[?(@ && @.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i) )]
+      $..[?(@ && @.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i) )].operationId
     then:
-      field: "operationId"
       function: pattern
       functionOptions:
         match: //
