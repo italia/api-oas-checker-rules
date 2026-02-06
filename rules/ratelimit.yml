@@ -6,7 +6,7 @@ rules:
       before issuing further requests using the Retry-After header.
 
       Retry-After is defined in RFC7231.
-    message: "[RFC7231] 503 response is missing the 'Retry-After' header."
+    message: "[RFC7231] A 503 response must include the `Retry-After` header."
     formats:
       - oas3
     severity: warn
