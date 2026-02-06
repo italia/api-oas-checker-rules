@@ -2,8 +2,7 @@ rules:
   servers-description:
     description: |-
       Servers must have a description.
-    message: >-
-      Server {{path}} must have a description.
+    message: "Server must have a description explaining its purpose (e.g., Production, Sandbox)."
     given:
     - $.servers[*]
     - $.paths..servers[*]
@@ -20,16 +19,13 @@ rules:
 
       You can use `http://` only on sandboxes environment.
       Use `x-sandbox: true` to skip this kind of check.
-    message: >-
-      Non-sandbox url  {{value}} {{error}}.
-      Add `x-sandbox: true` to skip this check on a specific server.
+    message: "Non-sandbox URL '{{value}}' must use https. Set 'x-sandbox: true' to skip this check for development environments."
     given:
-    -  $.servers[?(@ && @["x-sandbox"] != true)]
-    -  $.paths..servers[?(@ && @["x-sandbox"] != true)]
+    -  $.servers[?(@ && @["x-sandbox"] != true)].url
+    -  $.paths..servers[?(@ && @["x-sandbox"] != true)].url
     severity: error
     recommended: true
     then:
-      field: url
       function: pattern
       functionOptions:
         match: ^https://.*

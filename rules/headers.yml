@@ -4,8 +4,7 @@ rules:
       OAS do not allow using the following HTTP headers in a specification
       file: Authorization, Content-Type and Accept.
       You MUST use the associate functionalities provided by OAS, instead.
-    message: |-
-      {{error}} in {{path}} {{value}}
+    message: "Do not define 'Authorization', 'Content-Type' or 'Accept' as headers; use the specific OAS fields for security schemes or media types instead."
     severity: error
     given:
       - "$..parameters[?(@ && @.in == 'header')].name"
@@ -22,8 +21,7 @@ rules:
     severity: warn
     given:
       - "$..parameters[?(@ && @.in == 'header')].name"
-    message: |-
-      [RFC6648] HTTP header '{{value}}' SHOULD NOT start with 'X-' in {{path}}
+    message: "[RFC6648] Avoid using 'X-' prefix for header '{{value}}'. Use meaningful names instead."
     recommended: true
     type: style
     then:
@@ -36,8 +34,7 @@ rules:
     <<: *no-x-headers
     given:
       - $..[responses][*].headers.*~
-    message: |-
-      [RFC6648] HTTP response header SHOULD NOT start with 'X-' in {{path}}
+    message: "[RFC6648] Avoid using 'X-' prefix for response headers. Use meaningful names instead."
     then:
       function: pattern
       functionOptions:

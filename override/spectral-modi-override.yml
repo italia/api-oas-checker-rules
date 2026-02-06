@@ -12,8 +12,8 @@ rules:
     - patch-media-type
     - patch-without-request-body
     - paths-http-method
-    - request-headers-pascal-case
-    - response-headers-pascal-case
+    - request-headers-train-case
+    - response-headers-train-case
     - response-with-json-object
     - schema-camel-case
     - sec-securitySchemes-oauth-allowed-flows

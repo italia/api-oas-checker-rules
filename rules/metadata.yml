@@ -1,8 +1,6 @@
 rules:
   has-x-summary:
-    message: >-
-      API MUST have an one-liner #/info/x-summary field
-      containing a brief description.
+    message: "The API info object must contain an `x-summary` field."
     description: >-
       The `#/info/x-summary` can be used to specify a brief, one-liner
       description of your API: this is very useful for catalog purposes
@@ -21,9 +19,7 @@ rules:
       function: truthy
 
   has-termsOfService:
-    message: >-
-      API SHOULD reference the URL of the Terms of Service
-      in #/info/termsOfService.
+    message: "The API info object should contain a `termsOfService` URL."
     description: >-
       API SHOULD reference the URL of the Terms of Service
       in `#/info/termsOfService`
@@ -38,6 +34,7 @@ rules:
       function: truthy
 
   has-contact:
+    message: "The API info object must contain a `contact` object with contact information."
     description: >-
       API MUST reference a contact, either url or email in #/info/contact
     given: $
@@ -51,8 +48,7 @@ rules:
       function: truthy
 
   has-x-api-id:
-    message: >-
-      API must have an unique identifier in x-api-id in #/info/x-api-id.
+    message: "The API info object should contain an `x-api-id` for tracking purposes."
     description: |-
       The `#/info/x-api-id` field can be used to associate an identifier
       to an API.
@@ -71,8 +67,7 @@ rules:
       [semantic versioning](https://semver.org/#semantic-versioning-specification-semver).
     severity: error
     recommended: true
-    message: >-
-      Specs should follow semantic versioning. {{value}} is not a valid version.
+    message: "The version '{{value}}' is not valid; use semantic versioning (e.g., 1.0.0)."
     given: $.info.version
     then:
       function: pattern

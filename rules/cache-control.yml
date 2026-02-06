@@ -22,8 +22,7 @@ rules:
       Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache
       like described in RFC7234.
 
-    message: >-
-      [RFC7234] Cache usage SHOULD be documented when used.
+    message: "[RFC7234] Cache usage must be documented in the description (include keywords like max-age, no-store, etc.)."
     formats:
       - oas3
     severity: warn
@@ -42,15 +41,13 @@ rules:
   cache-responses-undocumented:
     <<: *cache-control
     severity: info
-    message: >-
-      [RFC7234] Cache usage in responses SHOULD be documented in Cache-Control and/or Expires. {{error}}
+    message: "[RFC7234] Cache usage for response header must be documented in its description."
     given: >-
       $..[responses][?(@property[0] == "2" )][headers].[?(@property && @property.match && @property.match(/Cache-Control|Expires/i))]
 
   cache-responses-indeterminate-behavior:
     <<: *cache-control
-    message: >-
-      [RFC7234] {{error}}
+    message: "[RFC7234] Use either 'Cache-Control' or 'Expires' header, but not both or neither."
     severity: info
     recommended: true
     given: >-
