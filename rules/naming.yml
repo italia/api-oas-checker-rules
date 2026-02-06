@@ -81,7 +81,7 @@ rules:
       ```
       
     message: |-
-      Avoid using method names in operationIds.
+      Avoid using method names in operationIds: {{value}}.
     formats:
       - oas3
     severity: hint

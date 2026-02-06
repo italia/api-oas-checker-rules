@@ -52,10 +52,13 @@ rules:
     then:
     - function: truthy
       field: 'properties.status'
+      message: 'The "/status" response schema must include the standard Problem field "status".'
     - function: truthy
       field: 'properties.title'
+      message: 'The "/status" response schema must include the standard Problem field "title".'
     - function: truthy
       field: 'properties.detail'
+      message: 'The "/status" response schema must include the standard Problem field "detail".'
   paths-http-method:
     description: |-
       When you design a REST API, you don't usually need to mention terms like

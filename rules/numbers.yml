@@ -11,7 +11,7 @@ rules:
 
       See recommendation RAC_REST_FORMAT_004.
     message: >-
-      [RAC_REST_FORMAT_004] Schema of type number or integer must specify a format. {{path}}
+      [RAC_REST_FORMAT_004] The schema of type 'number' must specify a format (e.g., float, double).
     formats:
     - oas3
     severity: error
@@ -24,6 +24,8 @@ rules:
   # Reuse the number-format description and message.
   integer-format:
     <<: *number-format
+    message: >-
+      [RAC_REST_FORMAT_004] The schema of type 'integer' must specify a format (e.g., int32, int64).
     given: >-
       $..[?(@ && @.type=="integer")]
 

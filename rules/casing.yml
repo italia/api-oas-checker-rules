@@ -14,7 +14,7 @@ rules:
       functionOptions:
         match: "^(\/[a-z0-9-.]+|\/{[a-zA-Z0-9_]+})+$"
 
-  request-headers-pascal-case: &request-headers-pascal-case
+  request-headers-train-case: &request-headers-train-case
     description: |
       Headers should be Train-Case / HTTP-Header-Case (e.g. `X-Header-Name`).
 
@@ -28,9 +28,9 @@ rules:
       function: pattern
       functionOptions:
         match: "^([A-Z][a-zA-Z0-9]*(-[A-Z][a-zA-Z0-9]*)*)$"
-  response-headers-pascal-case:
-    <<: *request-headers-pascal-case
-    message: '[RAC_REST_NAME_003] Response header must be Train-Case / HTTP-Header-Case.'
+  response-headers-train-case:
+    <<: *request-headers-train-case
+    message: '[RAC_REST_NAME_003] Response header "{{property}}" must be Train-Case / HTTP-Header-Case.'
     given:
     - $..[responses][*].headers.*~
 
