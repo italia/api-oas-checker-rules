@@ -13,8 +13,7 @@ rules:
       - >-
         $..[securitySchemes][?(@ && @.type=="oauth2")][*].[?(@property && @property.match(/Url$/i))]
     then:
-      - field: value
-        function: pattern
+      - function: pattern
         functionOptions:
           match: >-
             ^https://
