@@ -24,7 +24,7 @@ rules:
                   example: [{ "op": "add", "path": "/baz", "value": "qux" }]
       ```
     message: >-
-      [RFC6902] application/json is not an appropriate media-type for PATCH. {{path}}
+      [RFC6902] The `application/json` media type is not appropriate for PATCH requests. Use a more specific media type like `application/json-patch+json`.
     formats:
     - oas3
     severity: error
@@ -69,15 +69,17 @@ rules:
       PATCH /user/123/enable
       ````
     message: >-
-      PATCH requires a non empty requestBody and requestBody.required set to true.
+      PATCH requests must include a `requestBody` and the `requestBody` must be required.
     severity: error
     given: >-
       $.paths.*.patch
     then:
     - field: requestBody
       function: defined
+      message: "PATCH requests must include a `requestBody`."
     - field: requestBody.required
       function: truthy
+      message: "The `requestBody` of a PATCH request must be required."
   patch-json-patch-mediatype:
     description: |-
       A correct example of PATCH using eg. `application/json-patch+json` media-type

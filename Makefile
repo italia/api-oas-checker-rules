@@ -2,59 +2,106 @@
 # Tasks set to build ruleset, bundle js, test and deploy
 #
 #
+.PHONY: docs
 
-RULE_FILES := spectral.yml spectral-full.yml spectral-security.yml spectral-generic.yml
-RULE_DOCS := $(RULE_FILES:.yml=.doc.html)
+RULESET_VERSION ?= 0.1
 
-all: clean install rules build test-ui
+UID=$(shell id -u)
+GID=$(shell id -g)
 
-# Clean artifacts from the previous build
+RULE_FILES := spectral.yml spectral-full.yml spectral-security.yml spectral-generic.yml spectral-modi.yml
+RULESET_DIR := rulesets
+FUNCTIONS_DIR:= $(RULESET_DIR)/functions
+
+all: clean rules docs
+
 clean:
-	rm -f $(RULE_DOCS)
-	rm -f $(RULE_FILES)
+	rm -rf $(RULESET_DIR)
+	rm -rf $(FUNCTIONS_DIR)
 
-# Install node dependencies
-install: yarn.lock
-	rm -rf node_modules
-	yarn install --frozen-lockfile
+rules: prepare_dir spectral.yml spectral-generic.yml spectral-security.yml spectral-full.yml spectral-modi.yml
 
+prepare_dir: clean
+	mkdir -p $(RULESET_DIR)
+	mkdir -p $(FUNCTIONS_DIR)
 
-# Generate spectral ruleset with documentation
-rules: clean $(RULE_FILES)
-spectral.yml: ./rules/
-	cat ./rules/rules-template.yml.template > $@
-	./rules/merge-yaml rules/*.yml >> $@
-	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines'
-spectral-generic.yml: ./rules/  spectral.yml
-	./rules/merge-yaml spectral.yml rules/skip-italian.yml.template > $@
-	node ruleset_doc_generator.mjs --file $@ --title 'Best Practices Only'
-spectral-security.yml: ./rules/  ./security/
-	cat ./rules/rules-template.yml.template > $@
-	./rules/merge-yaml security/*.yml >> $@
-	mkdir -p ./functions
-	cp ./security/functions/* ./functions/
-	node ruleset_doc_generator.mjs --file $@ --title 'Extra Security Checks'
+spectral.yml: $(wildcard ./rules/*.yml)
+	docker run --rm\
+		--user  ${UID}:${GID} \
+		-v "$(CURDIR)":/app\
+		-w /app\
+		-e RULES_FOLDERS=rules/\
+		-e RULESET_NAME="Italian Guidelines Full"\
+		-e RULESET_VERSION=${RULESET_VERSION}\
+		-e RULESET_FILE_NAME=$(RULESET_DIR)/$@\
+		-e TEMPLATE_FILE=rules/rules-template.yml.template\
+		python:3.11-alpine\
+		sh -c "python -m venv /tmp/venv; source /tmp/venv/bin/activate; pip install -r requirements.txt && python builder.py"
+
+spectral-generic.yml: $(wildcard ./rules/*.yml)
+	docker run --rm\
+		--user  ${UID}:${GID} \
+		-v "$(CURDIR)":/app\
+		-w /app\
+		-e RULES_FOLDERS=rules/\
+		-e RULESET_NAME="Best Practices Only"\
+		-e RULESET_VERSION=${RULESET_VERSION}\
+		-e RULESET_FILE_NAME=$(RULESET_DIR)/$@\
+		-e TEMPLATE_FILE=rules/rules-template.yml.template\
+		-e CONFIG_FILE=override/spectral-generic-override.yml\
+		python:3.11-alpine\
+		sh -c "python -m venv /tmp/venv; source /tmp/venv/bin/activate; pip install -r requirements.txt && python builder.py"
+
+spectral-security.yml: $(wildcard ./rules/*.yml) $(wildcard ./security/*.yml)
+	docker run --rm\
+		--user  ${UID}:${GID} \
+		-v "$(CURDIR)":/app\
+		-w /app\
+		-e RULES_FOLDERS=security/\
+		-e RULESET_NAME="Extra Security Checks"\
+		-e RULESET_VERSION=${RULESET_VERSION}\
+		-e RULESET_FILE_NAME=$(RULESET_DIR)/$@\
+		-e TEMPLATE_FILE=rules/rules-template.yml.template\
+		python:3.11-alpine\
+		sh -c "python -m venv /tmp/venv; source /tmp/venv/bin/activate; pip install -r requirements.txt && python builder.py"
+	cp security/functions/* $(FUNCTIONS_DIR)/
+
 spectral-full.yml: spectral.yml spectral-security.yml
-	./rules/merge-yaml spectral.yml spectral-security.yml > $@
-	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines + Extra Security Checks'
+	docker run --rm\
+		--user ${UID}:${GID} \
+		-v "$(CURDIR)":/app\
+		-w /app\
+		-e RULES_FOLDERS=rules/,security/\
+		-e RULESET_NAME="Italian Guidelines Full + Extra Security Checks"\
+		-e RULESET_VERSION=${RULESET_VERSION}\
+		-e RULESET_FILE_NAME=$(RULESET_DIR)/$@\
+		-e TEMPLATE_FILE=rules/rules-template.yml.template\
+		python:3.11-alpine\
+		sh -c "python -m venv /tmp/venv; source /tmp/venv/bin/activate; pip install -r requirements.txt && python builder.py"
 
-# Build js bundle
-build: install rules
-	yarn build-js
+spectral-modi.yml: $(wildcard ./rules/*.yml)
+	docker run --rm\
+		--user ${UID}:${GID} \
+		-v "$(CURDIR)":/app\
+		-w /app\
+		-e RULES_FOLDERS=rules/\
+		-e RULESET_NAME="Italian Guidelines"\
+		-e RULESET_VERSION=${RULESET_VERSION}\
+		-e RULESET_FILE_NAME=$(RULESET_DIR)/$@\
+		-e TEMPLATE_FILE=rules/rules-template.yml.template\
+		-e CONFIG_FILE=override/spectral-modi-override.yml\
+		python:3.11-alpine\
+		sh -c "python -m venv /tmp/venv; source /tmp/venv/bin/activate; pip install -r requirements.txt && python builder.py"
 
-# Run test suite
-test-ui: install
-	yarn eslint
-	yarn test
-
-# TODO: this doesn't work on MacOS!
-test: install
-	bash test-ruleset.sh rules/ all
-	bash test-ruleset.sh security/ all
-
-# regression test with existing files
-ittest: test rules
-	(cd ittest && bash ittest.sh)
-
-deploy: all
-	yarn deploy
+docs:
+	docker run --rm \
+		--user ${UID}:${GID} \
+		-v "$(CURDIR)":/app \
+		-w /app/docs-generator \
+		python:3.11-alpine \
+		sh -c 'python -m venv /tmp/venv; \
+		source /tmp/venv/bin/activate; \
+		pip install -r requirements.txt; \
+		for file in /app/rulesets/*.yml; do \
+			python generator.py --file "$$file" --out "/app/rulesets"; \
+		done'
