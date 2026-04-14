@@ -51,10 +51,16 @@ rules:
     severity: info
     recommended: true
     given: >-
-      $..[responses][?(@property[0] == "2" )][headers]
+      $..[responses][?(@property[0] == "2")][headers]
     then:
-    - function: xor
-      functionOptions:
-        properties:
-        -  Expires
-        -  Cache-Control
+      - function: schema
+        functionOptions:
+          schema:
+            type: object
+            oneOf:
+              - required: [Cache-Control]
+                not:
+                  required: [Expires]
+              - required: [Expires]
+                not:
+                  required: [Cache-Control]

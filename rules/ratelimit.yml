@@ -37,7 +37,7 @@ rules:
       A standardization proposal for ratelimit headers is ongoing
       inside the IETF HTTPAPI Workgroup.
       See [the draft](https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/)
-    message: "Missing or ambiguous rate-limit header: '{{property}}' must be defined (standard or X- prefix)."
+    message: "[RFC7231] 2xx/4xx responses must include all three rate-limit headers (Limit, Remaining, Reset) using one consistent prefix: either 'X-RateLimit-' or 'RateLimit-'."
     formats:
       - oas3
     severity: warn
@@ -45,27 +45,38 @@ rules:
     given: >-
       $..[responses][?(@property[0] == "2" || (@property[0] == "4" && @property != "429"))][headers]
     then:
-    - functionOptions:
-        properties:
-        -  X-RateLimit-Limit
-        -  RateLimit-Limit
-      function: xor
-    - functionOptions:
-        properties:
-          - X-RateLimit-Remaining
-          - RateLimit-Remaining
-      function: xor
-    - functionOptions:
-        properties:
-          - X-RateLimit-Reset
-          - RateLimit-Reset
-      function: xor
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          allOf:
+            - oneOf:
+                - required: [X-RateLimit-Limit]
+                  not:
+                    required: [RateLimit-Limit]
+                - required: [RateLimit-Limit]
+                  not:
+                    required: [X-RateLimit-Limit]
+            - oneOf:
+                - required: [X-RateLimit-Remaining]
+                  not:
+                    required: [RateLimit-Remaining]
+                - required: [RateLimit-Remaining]
+                  not:
+                    required: [X-RateLimit-Remaining]
+            - oneOf:
+                - required: [X-RateLimit-Reset]
+                  not:
+                    required: [RateLimit-Reset]
+                - required: [RateLimit-Reset]
+                  not:
+                    required: [X-RateLimit-Reset]
 
   ratelimit-429-presence:
     description: |-
       429 (Too Many Requests) responses must include either the `Retry-After` header 
       or a complete set of RateLimit headers (`Limit`, `Remaining`, `Reset`).
-    message: "429 response must have Retry-After or a complete set of RateLimit headers (Limit, Remaining, Reset)."
+    message: "[RFC6585] A 429 response must include 'Retry-After' or a full set of rate-limit headers: X-RateLimit-{Limit,Remaining,Reset} or RateLimit-{Limit,Remaining,Reset}."
     severity: warn
     formats: [oas3]
     given: $..[responses][?(@property == "429")][headers]
@@ -85,11 +96,11 @@ rules:
       (standard or X- prefix). 
       If both Retry-After and Reset are present, they should ideally represent 
       the same time interval.
-    message: "RateLimit headers for 429 must be provided as a complete and consistent set."
+    message: "[RFC6585] A 429 response must include all three rate-limit headers (Limit, Remaining, Reset) using one consistent prefix: either 'X-RateLimit-' or 'RateLimit-', never mixed."
     severity: error
     formats: [oas3]
     given: >-
-      $..[responses][?(@property == "429")][headers][?(@["X-RateLimit-Limit"] || @["X-RateLimit-Remaining"] || @["X-RateLimit-Reset"] || @["RateLimit-Limit"] || @["RateLimit-Remaining"] || @["RateLimit-Reset"])]
+      $..[responses][?(@property == "429")][headers][?(@ && (@["X-RateLimit-Limit"] || @["X-RateLimit-Remaining"] || @["X-RateLimit-Reset"] || @["RateLimit-Limit"] || @["RateLimit-Remaining"] || @["RateLimit-Reset"]))]
     then:
       function: schema
       functionOptions:
