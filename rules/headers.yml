@@ -34,7 +34,7 @@ rules:
     <<: *no-x-headers
     given:
       - $..[responses][*].headers.*~
-    message: "[RFC6648] Avoid using 'X-' prefix for response headers. Use meaningful names instead."
+    message: "[RFC6648] Avoid using 'X-' prefix for response header '{{property}}'. Use a meaningful name instead."
     then:
       function: pattern
       functionOptions:
