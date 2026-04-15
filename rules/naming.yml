@@ -27,7 +27,7 @@ rules:
 
 
     message: |-
-      Use recommended variable names in {{value}}.
+      The parameter name '{{value}}' should align with national ontologies. Use standardized names like 'given_name', 'family_name', 'tax_code'.
     formats:
       - oas3
     severity: info
@@ -41,7 +41,7 @@ rules:
     description: |-
       Use well defined parameter and schema names, deriving them
       from the national ontologies available at https://w3id.org/italia/onto/
-    message: "Use recommended variable names in '{{value}}'."
+    message: "The property name '{{value}}' should align with national ontologies. Use standardized names like 'given_name', 'family_name', 'tax_code'."
     formats:
       - oas3
     severity: info
@@ -81,7 +81,7 @@ rules:
       ```
       
     message: |-
-      Avoid using method names in operationIds: {{value}}.
+      The operationId '{{value}}' starts with an HTTP verb (get, post, put, delete, patch). Use a resource-centric name instead.
     formats:
       - oas3
     severity: hint
