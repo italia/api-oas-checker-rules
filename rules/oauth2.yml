@@ -4,7 +4,7 @@ rules:
     description: |-
       OAuth2 endpoints must use `https://`
     message: >-
-      OAuth endpoints must use https://
+      [RFC6749] OAuth2 authorization and token endpoints must use HTTPS.
     formats:
       - oas3
     severity: error

@@ -24,7 +24,7 @@ rules:
       ```
 
     message: |-
-      [RFC7807] Error responses should support RFC7807 in {{path}}.
+      [RFC9457] Error response content type must be 'application/problem+json' or 'application/problem+xml'.
     formats:
       - oas3
     severity: error
@@ -61,7 +61,7 @@ rules:
 
       See recommendation RAC_REST_NAME_007.
     message: |-
-      [RFC7807] Your schema doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
+      [RFC9457] Error response schema does not conform to RFC9457. Expected at least two of: 'title', 'status', 'type', 'detail'.
     formats:
     - oas3
     severity: hint
@@ -124,7 +124,7 @@ rules:
 
       See recommendation RAC_REST_NAME_007.
     message: |-
-      [RFC7807] Error response doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
+      [RFC9457] Error response uses non-standard fields ('message', 'code', 'msg'). Replace them with RFC9457 fields: 'detail', 'type', 'status', 'title'.
     formats:
     - oas3
     severity: hint
