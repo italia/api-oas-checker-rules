@@ -22,3 +22,17 @@ rules:
     then:
       function: truthy
 
+  oas3-version-hint:
+    description: "Suggests using OpenAPI 3.0.x for better compatibility."
+    message: "Working with OpenAPI 3.0.x is recommended for compatibility reasons."
+    severity: hint
+    formats:
+      - oas2
+      - oas3
+    given: $
+    then:
+      field: openapi
+      function: pattern
+      functionOptions:
+        match: ^3\.0\..+$
+
