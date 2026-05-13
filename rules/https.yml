@@ -2,11 +2,11 @@ rules:
   servers-description:
     description: |-
       Servers must have a description.
-    message: "Server must have a description explaining its purpose (e.g., Production, Sandbox)."
+    message: "Server should have a description explaining its purpose (e.g., Production, Sandbox)."
     given:
     - $.servers[*]
     - $.paths..servers[*]
-    severity: error
+    severity: warn
     recommended: true
     then:
       field: description
