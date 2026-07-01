@@ -1,3 +1,6 @@
+functions:
+  - oas3PdndSecurityDefined
+
 rules:
   no-swagger-2:
     description: >-
@@ -21,4 +24,16 @@ rules:
     given: "$"
     then:
       function: truthy
+
+  oas3-pdnd-security-defined:
+    description: "The API SHOULD define a security requirement either at root level or for every operation."
+    message: "The OpenAPI descriptor defines no security. {{error}}"
+    severity: warn
+    recommended: true
+    given: "$"
+    formats:
+      - oas3
+    then:
+      function: oas3PdndSecurityDefined
+
 
