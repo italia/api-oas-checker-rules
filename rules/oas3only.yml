@@ -25,6 +25,20 @@ rules:
     then:
       function: truthy
 
+  oas3-version-hint:
+    description: "Suggests using OpenAPI 3.0.x for better compatibility."
+    message: "Working with OpenAPI 3.0.x is recommended for compatibility reasons."
+    severity: hint
+    formats:
+      - oas2
+      - oas3
+    given: $
+    then:
+      field: openapi
+      function: pattern
+      functionOptions:
+        match: ^3\.0\..+$
+        
   oas3-pdnd-security-defined:
     description: "The API SHOULD define a security requirement either at root level or for every operation."
     message: "The OpenAPI descriptor defines no security. {{error}}"
@@ -35,5 +49,3 @@ rules:
       - oas3
     then:
       function: oas3PdndSecurityDefined
-
-
