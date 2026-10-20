@@ -16,6 +16,7 @@ rules:
     - oas3
     severity: error
     recommended: true
+    resolved: false
     given: >-
       $..[?(@ && @.type=="number")]
     then:
@@ -42,7 +43,7 @@ rules:
     severity: hint
     recommended: true
     given: >-
-      $..[?(@ && @.type=="integer")].format
+      $..[?(@ && @.type=="integer" && @.format)].format
     then:
       function: enumeration
       functionOptions:
@@ -54,7 +55,7 @@ rules:
     message: >-
       [RAC_REST_FORMAT_004] Type format is "{{value}}", expected one of [decimal32, decimal64, decimal128, float, double]. {{path}}
     given: >-
-      $..[?(@ && @.type=="number")].format
+      $..[?(@ && @.type=="number" && @.format)].format
     then:
       function: enumeration
       functionOptions:
