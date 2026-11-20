@@ -6,3 +6,10 @@ rules:
     - has-x-summary
     - integer-format
     - number-format
+    - property-names-ascii
+    - schema-names-ascii
+    - parameter-names-ascii
+    - operation-id-ascii
+    - request-headers-token
+    - response-headers-token
+    - paths-ascii

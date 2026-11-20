@@ -13,6 +13,13 @@ rules:
     - use-semver
     - request-headers-train-case
     - paths-status-return-json
+    - property-names-ascii
+    - schema-names-ascii
+    - parameter-names-ascii
+    - operation-id-ascii
+    - request-headers-token
+    - response-headers-token
+    - paths-ascii
   override:
     oas3-schema: false
     oas3-server-variables: false
