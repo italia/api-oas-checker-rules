@@ -143,3 +143,23 @@ rules:
       field: "@property"
       function: undefined
 
+
+
+  paths-ascii:
+    description: |-
+      Paths MUST contain only ASCII characters.
+
+      Non-ASCII characters in URLs must be percent-encoded and make
+      routing and client generation error-prone.
+
+      See Italian recommendation RAC_REST_NAME_002 (paths in kebab-case).
+    message: '[RAC_REST_NAME_002] Path "{{property}}" must contain only ASCII characters.'
+    severity: error
+    recommended: true
+    resolved: false
+    given: $.paths
+    then:
+      field: "@key"
+      function: pattern
+      functionOptions:
+        notMatch: "[^\\x00-\\x7F]"

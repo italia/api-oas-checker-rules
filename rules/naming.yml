@@ -91,3 +91,90 @@ rules:
       function: pattern
       functionOptions:
         match: //
+
+  property-names-ascii:
+      description: |-
+        Schema property names MUST contain only ASCII characters.
+
+        Property names are used by tools to generate classes and variables:
+        non-ASCII characters break code generators and integrations,
+        may lead to vulnerable code and force implementers to write
+        complex integration tests.
+
+        See Italian recommendation RAC_GEN_NAME_002.
+      message: '[RAC_GEN_NAME_002] Property name "{{property}}" must contain only ASCII characters.'
+      severity: error
+      recommended: true
+      resolved: false
+      formats:
+        - oas3
+      given: $..properties
+      then:
+        field: "@key"
+        function: pattern
+        functionOptions:
+          notMatch: "[^\\x00-\\x7F]"
+
+  schema-names-ascii:
+    description: |-
+      Schema names MUST contain only ASCII characters.
+
+      Schema names are used by tools to generate class names.
+
+      See Italian recommendation RAC_GEN_NAME_003 (self-descriptive names
+      for services, paths, operations and schemas).
+    message: '[RAC_GEN_NAME_003] Schema name "{{property}}" must contain only ASCII characters.'
+    severity: error
+    recommended: true
+    resolved: false
+    formats:
+      - oas3
+    given: $.components.schemas
+    then:
+      field: "@key"
+      function: pattern
+      functionOptions:
+        notMatch: "[^\\x00-\\x7F]"
+
+  parameter-names-ascii:
+    description: |-
+      Parameter names MUST contain only ASCII characters.
+
+      Parameter names are used as keys by clients and servers.
+      Header parameters are checked by the header rules.
+
+      See Italian recommendation RAC_GEN_NAME_002, applied to parameter
+      names as they are keys used by applications.
+    message: '[RAC_GEN_NAME_002] Parameter name "{{value}}" must contain only ASCII characters.'
+    severity: error
+    recommended: true
+    resolved: false
+    formats:
+      - oas3
+    given:
+      - "$..parameters[?(@ && @.in != 'header')].name"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "[^\\x00-\\x7F]"
+
+
+  operation-id-ascii:
+    description: |-
+      operationId values MUST contain only ASCII characters.
+
+      Code generators use the operationId as the method name
+      in the generated clients and servers.
+
+      See Italian recommendation RAC_GEN_NAME_002.
+    message: '[RAC_GEN_NAME_002] operationId "{{value}}" must contain only ASCII characters.'
+    severity: error
+    recommended: true
+    resolved: false
+    formats:
+      - oas3
+    given: $.paths[*][get,put,post,delete,options,head,patch,trace].operationId
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "[^\\x00-\\x7F]"

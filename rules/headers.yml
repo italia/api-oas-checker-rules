@@ -40,3 +40,41 @@ rules:
       functionOptions:
         match: >-
           /^([^x]|.[^-])|RateLimit-|Correlation-ID|ReplyTo/i
+
+
+  request-headers-token:
+    description: |-
+      HTTP header names MUST be valid tokens.
+
+      According to RFC9110 section 5.1, a field name is a token:
+      only ASCII letters, digits and the characters !#$%&'*+-.^_`|~
+      are allowed. Spaces and non-ASCII characters are not allowed.
+    message: '[RFC9110] Header name "{{value}}" must be a valid token (ASCII letters, digits and !#$%&''*+-.^_`|~).'
+    severity: error
+    recommended: true
+    resolved: false
+    given:
+      - "$..parameters[?(@ && @.in == 'header')].name"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[!#$%&'*+.^_`|~0-9A-Za-z-]+$"
+
+
+  response-headers-token:
+    description: |-
+      HTTP response header names MUST be valid tokens.
+
+      According to RFC9110 section 5.1, a field name is a token:
+      only ASCII letters, digits and the characters !#$%&'*+-.^_`|~
+      are allowed. Spaces and non-ASCII characters are not allowed.
+    message: '[RFC9110] Response header name "{{property}}" must be a valid token (ASCII letters, digits and !#$%&''*+-.^_`|~).'
+    severity: error
+    recommended: true
+    resolved: false
+    given:
+      - $..[responses][*].headers.*~
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[!#$%&'*+.^_`|~0-9A-Za-z-]+$"
